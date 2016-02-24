@@ -1,5 +1,5 @@
 <?php
-require("dbsettings.php");
+require("acfiles/dbsettings.php");
 $user = $_COOKIE["id"];
 if($user != "") {
     $chkacqry = "SELECT * FROM `odcs`.`allusers` WHERE uid='$user'";
