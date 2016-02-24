@@ -31,7 +31,7 @@ if($user != "") {
     <script src="js/bootstrap-select.min.js"></script>
 
     <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-    
+
     <script src="js/jquery-1.12.0.min.js"></script>
     <script>
         $(".cl").click(function() {
@@ -111,8 +111,8 @@ if($user != "") {
                 echo '            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right main-nav">
                     <li><a href="#intro">Intro</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#team">Top Doctors</a></li>
+                    <li><a href="#services">Consult</a></li>
+                    <li><a href="#team">Update Profile</a></li>
                     <li><a href="#pricing">Pricing</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#modal2" class="btn btn-blue">PayUp </a></li>
                     <li><a href="signout.php"  class="btn btn-red">Sign Out</a></li>
@@ -121,6 +121,8 @@ if($user != "") {
                     echo '            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right main-nav">
                     <li><a href="#intro">Intro</a></li>
+                    <li><a href="#services">Consult</a></li>
+                    <li><a href="#team">Update Profile</a></li>
 
                     <li><a href="#" data-toggle="modal" data-target="#modal2" class="btn btn-blue">PayOuts </a></li>
                     <li><a href="signout.php"  class="btn btn-red">Sign Out</a></li>
