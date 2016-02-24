@@ -11,5 +11,7 @@ $regqry = "INSERT INTO `odcs`.`allusers` (`fname`, `email`, `username`, `pass`, 
 
 mysqli_select_db($dbhandle, $mysqlidb);
 mysqli_query($dbhandle, $regqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-
-;
+$newURL  = "http://localhost/ODCS/";
+setcookie("id", $uid, time() + (86400 * 30), "/");
+header('Location: '.$newURL);
+?>
