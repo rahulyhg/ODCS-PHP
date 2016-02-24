@@ -22,17 +22,17 @@ if($user != "") {
 
 <head>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="js/dist/css/bootstrap-select.css">
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="css/bootstrap-select.min.css">
 
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
+    <script src="js/bootstrap-select.min.js"></script>
 
     <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/i18n/defaults-*.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    
+    <script src="js/jquery-1.12.0.min.js"></script>
     <script>
         $(".cl").click(function() {
             var val = $(this).html();
