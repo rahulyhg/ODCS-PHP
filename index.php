@@ -115,7 +115,7 @@ if($user != "") {
                     <li><a href="#team">Update Profile</a></li>
                     <li><a href="#pricing">Pricing</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#modal2" class="btn btn-blue">PayUp </a></li>
-                    <li><a href="signout.php"  class="btn btn-red">Sign Out</a></li>
+                    <li><a href="acfiles/signout.php"  class="btn btn-red">Sign Out</a></li>
                 </ul>
             </div>';}else{
                     echo '            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -125,7 +125,7 @@ if($user != "") {
                     <li><a href="#team">Update Profile</a></li>
 
                     <li><a href="#" data-toggle="modal" data-target="#modal2" class="btn btn-blue">PayOuts </a></li>
-                    <li><a href="signout.php"  class="btn btn-red">Sign Out</a></li>
+                    <li><a href="acfiles/signout.php"  class="btn btn-red">Sign Out</a></li>
                 </ul>
             </div>';
 
@@ -445,7 +445,7 @@ if($user != "") {
             <div class="modal-content modal-popup">
                 <a href="#" class="close-link"><i class="icon_close_alt2"></i></a>
                 <h3 class="white">Sign Up</h3>
-                <form action="register.php" class="popup-form" method="post">
+                <form action="acfiles/register.php" class="popup-form" method="post">
                     <input type="text" name="fname" class="form-control form-white" placeholder="Full Name">
                     <input type="text" name="email" class="form-control form-white" placeholder="Email Address">
                     <input type="text" name="username" class="form-control form-white" placeholder="User Name">
@@ -471,7 +471,7 @@ if($user != "") {
             <div class="modal-content modal-popup">
                 <a href="#" class="close-link"><i class="icon_close_alt2"></i></a>
                 <h3 class="white">Login</h3>
-                <form action="login.php" class="popup-form" method="post">
+                <form action="acfiles/login.php" class="popup-form" method="post">
                     <input type="text" name="user" class="form-control form-white" placeholder="User Name">
                     <input type="password" name="pass" class="form-control form-white" placeholder="Password">
 
