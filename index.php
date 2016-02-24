@@ -115,7 +115,7 @@ if($user != "") {
                     <li><a href="#team">Top Doctors</a></li>
                     <li><a href="#pricing">Pricing</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#modal2" class="btn btn-blue">PayUp </a></li>
-                    <li><a href="signout.php"  class="btn btn-green">Sign Out</a></li>
+                    <li><a href="signout.php"  class="btn btn-red">Sign Out</a></li>
                 </ul>
             </div>';}else{
                     echo '            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -123,7 +123,7 @@ if($user != "") {
                     <li><a href="#intro">Intro</a></li>
 
                     <li><a href="#" data-toggle="modal" data-target="#modal2" class="btn btn-blue">PayOuts </a></li>
-                    <li><a href="signout.php"  class="btn btn-green">Sign Out</a></li>
+                    <li><a href="signout.php"  class="btn btn-red">Sign Out</a></li>
                 </ul>
             </div>';
 

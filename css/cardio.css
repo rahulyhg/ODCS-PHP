@@ -214,6 +214,9 @@ nav.navbar-fixed-top .navbar-nav > li > a:not(.btn) {
 .btn.btn-green {
 	background: #0dad76;
 }
+.btn.btn-red {
+	background: #d82b2b;
+}
 
 .btn.btn-blue:hover {
 	background: #31b9ff;
