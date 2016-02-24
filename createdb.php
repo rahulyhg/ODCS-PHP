@@ -1,0 +1,2 @@
+<?php
+$query1 = "CREATE TABLE `odcs`.`allusers` ( `fname` VARCHAR(200) NOT NULL , `email` VARCHAR(200) NOT NULL , `username` VARCHAR(200) NOT NULL , `pass` VARCHAR(200) NOT NULL , `actp` VARCHAR(200) NOT NULL , `uid` VARCHAR(26) NOT NULL , PRIMARY KEY (`uid`(26)) ) ENGINE = InnoDB;";
