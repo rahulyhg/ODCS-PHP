@@ -1,3 +1,22 @@
+<?php
+require("dbsettings.php");
+$user = $_COOKIE["id"];
+if($user != "") {
+    $chkacqry = "SELECT * FROM `odcs`.`allusers` WHERE uid='$user'";
+    mysqli_select_db($dbhandle, $mysqlidb);
+    $result = mysqli_query($dbhandle, $chkacqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+    $count = mysqli_num_rows($result);
+    $row = mysqli_fetch_assoc($result);
+    $name = $row['fname'];
+    $usern = $row["username"];
+    $atype = $row["actp"];
+    if ($count == 1){
+        $flag =1;
+    }else{
+        $flag =0;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -75,7 +94,9 @@
                 <a class="navbar-brand" href="#"><img src="img/logo.png" data-active-url="img/logo-active.png" alt=""></a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <?php
+            if($flag ==  0){
+                echo '            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right main-nav">
                     <li><a href="#intro">Intro</a></li>
                     <li><a href="#services">Services</a></li>
@@ -84,7 +105,32 @@
                     <li><a href="#" data-toggle="modal" data-target="#modal2" class="btn btn-blue">Login</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#modal1" class="btn btn-green">Sign Up</a></li>
                 </ul>
-            </div>
+            </div>';
+            }else{
+                if($atype == "Patient"){
+                echo '            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right main-nav">
+                    <li><a href="#intro">Intro</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#team">Top Doctors</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#modal2" class="btn btn-blue">PayUp </a></li>
+                    <li><a href="signout.php"  class="btn btn-green">Sign Out</a></li>
+                </ul>
+            </div>';}else{
+                    echo '            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right main-nav">
+                    <li><a href="#intro">Intro</a></li>
+
+                    <li><a href="#" data-toggle="modal" data-target="#modal2" class="btn btn-blue">PayOuts </a></li>
+                    <li><a href="signout.php"  class="btn btn-green">Sign Out</a></li>
+                </ul>
+            </div>';
+
+                }
+            }
+            ?>
+
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container-fluid -->
@@ -95,7 +141,7 @@
                 <div class="header-text">
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <h3 class="light white">Take care of your body.</h3>
+                            <h3 class="light white">Take care of your body. <?php echo $usern; ?></h3>
                             <h1 class="white typed">It's the only place you have to live.</h1>
                             <span class="typed-cursor">|</span>
                         </div>
