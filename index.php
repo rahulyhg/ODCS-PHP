@@ -112,7 +112,7 @@ if($user != "") {
                 <ul class="nav navbar-nav navbar-right main-nav">
                     <li><a href="#intro">Intro</a></li>
                     <li><a href="#services">Consult</a></li>
-                    <li><a href="#team">Update Profile</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#Modal3" >Update Profile</a></li>
                     <li><a href="#pricing">Pricing</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#modal2" class="btn btn-blue">PayUp </a></li>
                     <li><a href="acfiles/signout.php"  class="btn btn-red">Sign Out</a></li>
@@ -463,6 +463,14 @@ if($user != "") {
 
                     <input type="submit" class="btn btn-submit"></input>
                 </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="Modal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content modal-popup">
+                <a href="#" class="close-link"><i class="icon_close_alt2"></i></a>
+                <iframe src="http://www.w3schools.com"></iframe>
             </div>
         </div>
     </div>

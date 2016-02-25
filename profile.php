@@ -1,19 +1,38 @@
+<?php
+require("acfiles/dbsettings.php");
+$user = $_COOKIE["id"];
+if($user != "") {
+    $chkacqry = "SELECT * FROM `odcs`.`allusers` WHERE uid='$user'";
+    mysqli_select_db($dbhandle, $mysqlidb);
+    $result = mysqli_query($dbhandle, $chkacqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+    $count = mysqli_num_rows($result);
+    $row = mysqli_fetch_assoc($result);
+    $name = $row['fname'];
+    $usern = $row["username"];
+    $atype = $row["actp"];
+    if ($count == 1){
+        $flag =1;
+    }else{
+        $flag =0;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="js/dist/css/bootstrap-select.css">
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="css/bootstrap-select.min.css">
 
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
+    <script src="js/bootstrap-select.min.js"></script>
 
     <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/i18n/defaults-*.min.js"></script>
-    <script src="js/jquery-1.12.1.min.js"></script>
+
+    <script src="js/jquery-1.12.0.min.js"></script>
 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -49,78 +68,58 @@
 </head>
 
 <div class="container" style="padding-top: 60px;">
-    <h1 class="page-header">Edit Profile</h1>
+    <h1 class="page-header">Edit Profile <?php echo $usern; ?></h1>
     <div class="row">
         <!-- left column -->
         <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="text-center">
+                <form class="form-horizontal" role="form" action="acfiles/account.php" method="post">
                 <img src="http://lorempixel.com/200/200/people/9/" class="avatar img-circle img-thumbnail" alt="avatar">
                 <h6>Upload a different photo...</h6>
-                <input type="file" class="text-center center-block well well-sm">
+                <input type="file" name="j" class="text-center center-block well well-sm">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label"></label>
+                        <div class="col-md-6">
+                            <input type="submit" class="btn btn-primary" value="Upload">
+
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
         <!-- edit form column -->
         <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
-            <div class="alert alert-info">
+            <div hidden class="alert alert-info">
                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                    <strong>Info!</strong> Indicates a neutral informative change or action.
              </div>
             <h3>Personal info</h3>
-            <form class="form-horizontal" role="form">
+            <form class="form-horizontal" role="form" action="acfiles/account.php" method="post">
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">First name:</label>
+                    <label class="col-lg-3 control-label">Height:</label>
                     <div class="col-lg-8">
-                        <input class="form-control" value="Jane" type="text">
+                        <input class="form-control" value="" name="h" type="text">
                     </div>
                 </div>
+
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Last name:</label>
+                    <label class="col-lg-3 control-label">Weight:</label>
                     <div class="col-lg-8">
-                        <input class="form-control" value="Bishop" type="text">
+                        <input class="form-control" name="w" value="" type="text">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">Company:</label>
-                    <div class="col-lg-8">
-                        <input class="form-control" value="" type="text">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">Email:</label>
-                    <div class="col-lg-8">
-                        <input class="form-control" value="janesemail@gmail.com" type="text">
-                    </div>
-                </div>
+
                 <div class="form-group">
                     <label class="col-lg-3 control-label">DOB:</label>
                     <div class="col-lg-8">
-                        <input class="form-control" value="dd/mm/yyy" id="dob" type="text">
+                        <input class="form-control" name="d" value="dd/mm/yyy" id="dob" type="text">
                     </div>
                 </div>
 
-
-                <div class="form-group">
-                    <label class="col-md-3 control-label">Username:</label>
-                    <div class="col-md-8">
-                        <input class="form-control" value="janeuser" type="text">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-3 control-label">Password:</label>
-                    <div class="col-md-8">
-                        <input class="form-control" value="11111122333" type="password">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-3 control-label">Confirm password:</label>
-                    <div class="col-md-8">
-                        <input class="form-control" value="11111122333" type="password">
-                    </div>
-                </div>
                 <div class="form-group">
                     <label class="col-md-3 control-label"></label>
                     <div class="col-md-8">
-                        <input class="btn btn-primary" value="Save Changes" type="button">
+                        <input type="submit" class="btn btn-primary" value="Save Changes">
                         <span></span>
                         <input class="btn btn-default" value="Cancel" type="reset">
                     </div>
