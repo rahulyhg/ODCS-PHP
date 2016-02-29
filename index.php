@@ -466,11 +466,11 @@ if($user != "") {
             </div>
         </div>
     </div>
-    <div class="modal fade" id="Modal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content modal-popup">
+    <div class="modal" id="Modal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content ">
                 <a href="#" class="close-link"><i class="icon_close_alt2"></i></a>
-                <iframe src="http://www.w3schools.com"></iframe>
+                <iframe src="profile.php"></iframe>
             </div>
         </div>
     </div>
@@ -530,6 +530,7 @@ if($user != "") {
         </ul>
         <a href="#" class="close-link"><i class="arrow_up"></i></a>
     </div>
+
     <!-- Scripts -->
 
     <script src="js/jquery-1.11.1.min.js"></script>
