@@ -64,12 +64,37 @@ if($user != "") {
     <!-- Elegant Icons -->
     <link rel="stylesheet" type="text/css" href="fonts/eleganticons/et-icons.css">
     <!-- Main style -->
-    <link rel="stylesheet" type="text/css" href="css/cardio.css">
+    <script>
+        $(function()
+        {
+            $(document).on('click', '.btn-add', function(e)
+            {
+                e.preventDefault();
+
+                var controlForm = $('.controls form:first'),
+                    currentEntry = $(this).parents('.entry:first'),
+                    newEntry = $(currentEntry.clone()).appendTo(controlForm);
+
+                newEntry.find('input').val('');
+                controlForm.find('.entry:not(:last) .btn-add')
+                    .removeClass('btn-add').addClass('btn-remove')
+                    .removeClass('btn-success').addClass('btn-danger')
+                    .html('<span class="glyphicon glyphicon-minus"></span>');
+            }).on('click', '.btn-remove', function(e)
+            {
+                $(this).parents('.entry:first').remove();
+
+                e.preventDefault();
+                return false;
+            });
+        });
+    </script>
 </head>
 
 <div class="container" style="padding-top: 60px;">
     <h1 class="page-header">Edit Profile <?php echo $usern; ?></h1>
     <div class="row">
+
         <!-- left column -->
         <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="text-center">
@@ -94,37 +119,107 @@ if($user != "") {
                    <strong>Info!</strong> Indicates a neutral informative change or action.
              </div>
             <h3>Personal info</h3>
-            <form class="form-horizontal" role="form" action="acfiles/account.php" method="post">
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">Height:</label>
-                    <div class="col-lg-8">
-                        <input class="form-control" value="" name="h" type="text">
-                    </div>
-                </div>
+            <?php
+            if($atype == 'Patient') {
 
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">Weight:</label>
-                    <div class="col-lg-8">
-                        <input class="form-control" name="w" value="" type="text">
-                    </div>
-                </div>
+                echo '
+                <form class="form-horizontal" role = "form" action = "acfiles/account.php" method = "post" >
+                <div class="form-group" >
+                    <label class="col-lg-3 control-label" for="comment" > Address:</label >
+                    <div class="col-lg-8" >
+                    <textarea class="form-control" rows = "5" name = "adr" id = "comment" ></textarea >
+                    </div >
+                </div >
+                <div class="form-group" >
+                    <label  class="col-lg-3 control-label"  for="sel1" > Gender:</label >
+                    <div class="col-lg-8" >
+                    <select class="form-control" name = "g" id = "sel1" >
+                        <option > Male</option >
+                        <option > Female</option >
 
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">DOB:</label>
-                    <div class="col-lg-8">
-                        <input class="form-control" name="d" value="dd/mm/yyy" id="dob" type="text">
-                    </div>
-                </div>
+                    </select >
+                        </div >
+                </div >
+                <div class="form-group" >
+                    <label class="col-lg-3 control-label" > Height:</label >
+                    <div class="col-lg-8" >
+                        <input class="form-control" value = "" name = "h" type = "text" >
+                    </div >
+                </div >
 
-                <div class="form-group">
-                    <label class="col-md-3 control-label"></label>
-                    <div class="col-md-8">
-                        <input type="submit" class="btn btn-primary" value="Save Changes">
-                        <span></span>
-                        <input class="btn btn-default" value="Cancel" type="reset">
-                    </div>
-                </div>
-            </form>
+                <div class="form-group" >
+                    <label class="col-lg-3 control-label" > Weight:</label >
+                    <div class="col-lg-8" >
+                        <input class="form-control" name = "w" value = "" type = "text" >
+                    </div >
+                </div >
+
+                <div class="form-group" >
+                    <label class="col-lg-3 control-label" > DOB:</label >
+                    <div class="col-lg-8" >
+                        <input class="form-control" name = "d" value = "dd/mm/yyy" id = "dob" type = "text" >
+                    </div >
+                </div >
+
+                <div class="form-group" >
+                    <label class="col-md-3 control-label" ></label >
+                    <div class="col-md-8" >
+                        <input type = "submit" class="btn btn-primary" value = "Save Changes" >
+                        <span ></span >
+                        <input class="btn btn-default" value = "Cancel" type = "reset" >
+                    </div >
+                </div >
+            </form >';
+            }
+                else{
+
+                    echo '
+
+                <form class="form-horizontal" role = "form" action = "acfiles/account.php" method = "post" >
+                <div class="form-group" >
+                    <label class="col-lg-3 control-label" for="comment" > Address:</label >
+                    <div class="col-lg-8" >
+                    <textarea class="form-control" rows = "5" name = "adr" id = "comment" ></textarea >
+                    </div >
+                </div >
+                <div class="form-group" >
+                    <label  class="col-lg-3 control-label"  for="sel1" > Gender:</label >
+                    <div class="col-lg-8" >
+                    <select class="form-control" name = "g" id = "sel1" >
+                        <option > Male</option >
+                        <option > Female</option >
+
+                    </select >
+                        </div >
+                </div >
+
+                <div class="form-group" >
+                    <label class="col-lg-3 control-label" > DOB:</label >
+                    <div class="col-lg-8" >
+                        <input class="form-control" name = "d" value = "dd/mm/yyy" id = "dob" type = "text" >
+                    </div >
+                </div >
+                <div class="form-group" >
+                    <label class="col-lg-3 control-label" for="comment" > Speciality:</label >
+                    <div class="col-lg-8" >
+                    <textarea class="form-control" rows = "4" name = "sp" id = "comment" ></textarea >
+                    <small> Seperates by commas</small>
+                    </div >
+                </div >
+
+                <div class="form-group" >
+                    <label class="col-md-3 control-label" ></label >
+                    <div class="col-md-8" >
+                        <input type = "submit" class="btn btn-primary" value = "Save Changes" >
+                        <span ></span >
+                        <input class="btn btn-default" value = "Cancel" type = "reset" >
+                    </div >
+                </div >
+            </form ><br>';
+
+            }
+            ?>
+            <br>
         </div>
     </div>
 </div>
