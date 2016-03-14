@@ -3,6 +3,7 @@ require("acfiles/dbsettings.php");
 $user = $_COOKIE["id"];
 if($user != "") {
     $chkacqry = "SELECT * FROM `odcs`.`allusers` WHERE uid='$user'";
+    $balqry = "SELECT * FROM `odcs`.`bill` WHERE uid='$user'";
     mysqli_select_db($dbhandle, $mysqlidb);
     $result = mysqli_query($dbhandle, $chkacqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
     $count = mysqli_num_rows($result);
@@ -10,6 +11,9 @@ if($user != "") {
     $name = $row['fname'];
     $usern = $row["username"];
     $atype = $row["actp"];
+    $result2 = mysqli_query($dbhandle, $balqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+    $row2 = mysqli_fetch_assoc($result2);
+    $money = $row2['balance'];
     if ($count == 1){
         $flag =1;
     }else{
@@ -115,7 +119,7 @@ if($user != "") {
                     <li><a href="/ODCS/profile.php">Edit Profile</a></li>
                     <li><a href="#pricing">Pricing</a></li>
 
-                    <li><a href="#" data-toggle="modal" data-target="#modal2" class="btn btn-blue">PayUp </a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#modal23" class="btn btn-blue">PayUp Your Balance '.$money.' </a></li>
                     <li><a href="acfiles/signout.php"  class="btn btn-red">Sign Out</a></li>
                 </ul>
             </div>';}else{
@@ -125,7 +129,7 @@ if($user != "") {
                     <li><a href="#services">Consult</a></li>
                     <li><a href="/ODCS/profile.php">Edit Profile</a></li>
 
-                    <li><a href="#" data-toggle="modal" data-target="#modal2" class="btn btn-blue">PayOuts </a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#modal23" class="btn btn-blue">PayOuts You Got '.$money.' </a></li>
                     <li><a href="acfiles/signout.php"  class="btn btn-red">Sign Out</a></li>
                 </ul>
             </div>';
@@ -484,6 +488,18 @@ if($user != "") {
                     <input type="text" name="user" class="form-control form-white" placeholder="User Name">
                     <input type="password" name="pass" class="form-control form-white" placeholder="Password">
 
+                    <button type="submit" class="btn btn-submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal23" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content modal-popup">
+                <a href="#" class="close-link"><i class="icon_close_alt2"></i></a>
+                <h3 class="white">Amount</h3>
+                <form action="acfiles/addmoney.php" class="popup-form" method="post">
+                    <input type="text" name="money" class="form-control form-white" placeholder="Enter Amnt">
                     <button type="submit" class="btn btn-submit">Submit</button>
                 </form>
             </div>
