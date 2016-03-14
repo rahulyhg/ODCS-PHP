@@ -1,2 +1,4 @@
 <?php
 $query1 = "CREATE TABLE `odcs`.`allusers` ( `fname` VARCHAR(200) NOT NULL , `email` VARCHAR(200) NOT NULL , `username` VARCHAR(200) NOT NULL , `pass` VARCHAR(200) NOT NULL , `actp` VARCHAR(200) NOT NULL , `uid` VARCHAR(26) NOT NULL , PRIMARY KEY (`uid`(26)) ) ENGINE = InnoDB;";
+$patienttable = "CREATE TABLE `odcs`.`patient` ( `address` TEXT NOT NULL , `gender` VARCHAR(200) NOT NULL , `height` INT(200) NOT NULL , `weight` INT(200) NOT NULL , `dob` VARCHAR(200) NOT NULL , `uid` VARCHAR(20000) NOT NULL , PRIMARY KEY (`uid`) ) ENGINE = InnoDB;";
+$doctortable = "CREATE TABLE `odcs`.`doctor` ( `uid` VARCHAR(767) NOT NULL , `address` VARCHAR(767) NOT NULL , `gender` VARCHAR(767) NOT NULL , `experiance` VARCHAR(767) NOT NULL , `contact` VARCHAR(767) NOT NULL , `hospital` VARCHAR(767) NOT NULL , `Qualification` VARCHAR(767) NOT NULL , `speciality` VARCHAR(767) NOT NULL ) ENGINE = InnoDB;";

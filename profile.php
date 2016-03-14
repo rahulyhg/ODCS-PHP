@@ -99,7 +99,7 @@ if($user != "") {
         <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="text-center">
                 <form class="form-horizontal" role="form" action="acfiles/account.php" method="post">
-                <img src="http://lorempixel.com/200/200/people/9/" class="avatar img-circle img-thumbnail" alt="avatar">
+                <img src="Red2.jpg" class="avatar img-circle img-thumbnail" alt="avatar">
                 <h6>Upload a different photo...</h6>
                 <input type="file" name="j" class="text-center center-block well well-sm">
                     <div class="form-group">
@@ -123,6 +123,7 @@ if($user != "") {
             if($atype == 'Patient') {
 
                 echo '
+                <input class="form-control" name = "atype" value = "P" type = "hidden" >
                 <form class="form-horizontal" role = "form" action = "acfiles/account.php" method = "post" >
                 <div class="form-group" >
                     <label class="col-lg-3 control-label" for="comment" > Address:</label >
@@ -174,7 +175,7 @@ if($user != "") {
                 else{
 
                     echo '
-
+                 <input class="form-control" name = "atype" value = "D" type = "hidden" >
                 <form class="form-horizontal" role = "form" action = "acfiles/account.php" method = "post" >
                 <div class="form-group" >
                     <label class="col-lg-3 control-label" for="comment" > Address:</label >
@@ -193,10 +194,28 @@ if($user != "") {
                         </div >
                 </div >
 
-                <div class="form-group" >
-                    <label class="col-lg-3 control-label" > DOB:</label >
+ <div class="form-group" >
+                    <label class="col-lg-3 control-label" > Experiance:</label >
                     <div class="col-lg-8" >
-                        <input class="form-control" name = "d" value = "dd/mm/yyy" id = "dob" type = "text" >
+                        <input class="form-control" name = "ex" value = "" type = "text" >
+                    </div >
+                </div >
+                 <div class="form-group" >
+                    <label class="col-lg-3 control-label" > Contact Nor:</label >
+                    <div class="col-lg-8" >
+                        <input class="form-control" name = "cn" value = "" type = "text" >
+                    </div >
+                </div >
+                 <div class="form-group" >
+                    <label class="col-lg-3 control-label" > Hospital Name:</label >
+                    <div class="col-lg-8" >
+                        <input class="form-control" name = "hn" value = "" type = "text" >
+                    </div >
+                </div >
+                 <div class="form-group" >
+                    <label class="col-lg-3 control-label" > Qualification:</label >
+                    <div class="col-lg-8" >
+                        <input class="form-control" name = "qn" value = "" type = "text" >
                     </div >
                 </div >
                 <div class="form-group" >

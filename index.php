@@ -26,7 +26,7 @@ if($user != "") {
     <link rel="stylesheet" href="js/dist/css/bootstrap-select.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="css/bootstrap-select.min.css">
-
+    <link rel="stylesheet" href="css/w3.css">
     <!-- Latest compiled and minified JavaScript -->
     <script src="js/bootstrap-select.min.js"></script>
 
@@ -112,7 +112,7 @@ if($user != "") {
                 <ul class="nav navbar-nav navbar-right main-nav">
                     <li><a href="#intro">Intro</a></li>
                     <li><a href="#services">Consult</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#Modal3" >Update Profile</a></li>
+                    <li><a href="/ODCS/profile.php">Edit Profile</a></li>
                     <li><a href="#pricing">Pricing</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#modal2" class="btn btn-blue">PayUp </a></li>
                     <li><a href="acfiles/signout.php"  class="btn btn-red">Sign Out</a></li>
@@ -122,7 +122,7 @@ if($user != "") {
                 <ul class="nav navbar-nav navbar-right main-nav">
                     <li><a href="#intro">Intro</a></li>
                     <li><a href="#services">Consult</a></li>
-                    <li><a href="#team">Update Profile</a></li>
+                    <li><a href="/ODCS/profile.php">Edit Profile</a></li>
 
                     <li><a href="#" data-toggle="modal" data-target="#modal2" class="btn btn-blue">PayOuts </a></li>
                     <li><a href="acfiles/signout.php"  class="btn btn-red">Sign Out</a></li>
@@ -486,6 +486,18 @@ if($user != "") {
                     <button type="submit" class="btn btn-submit">Submit</button>
                 </form>
             </div>
+        </div>
+    </div>
+    <div id="id01" class="w3-modal">
+        <div class="w3-modal-content">
+
+      <span onclick="document.getElementById('id01').style.display='none'"
+            class="w3-closebtn">&times;</span>
+
+
+
+               <iframe src="profile.php" width="100%"></iframe>
+
         </div>
     </div>
     <footer>
