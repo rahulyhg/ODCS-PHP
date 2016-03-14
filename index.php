@@ -111,9 +111,10 @@ if($user != "") {
                 echo '            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right main-nav">
                     <li><a href="#intro">Intro</a></li>
-                    <li><a href="#services">Consult</a></li>
+                    <li><a href="/ODCS/acfiles/consult.php">Consult</a></li>
                     <li><a href="/ODCS/profile.php">Edit Profile</a></li>
                     <li><a href="#pricing">Pricing</a></li>
+
                     <li><a href="#" data-toggle="modal" data-target="#modal2" class="btn btn-blue">PayUp </a></li>
                     <li><a href="acfiles/signout.php"  class="btn btn-red">Sign Out</a></li>
                 </ul>
