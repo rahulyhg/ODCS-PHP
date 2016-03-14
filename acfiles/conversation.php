@@ -14,10 +14,65 @@
     <p class="lead text-center">I am a creative graphic designer focused on modern eye catching designs. I am not only the graphic designer! I can also do complete websites &amp; computer applications.</p>
     <div class="container">
         <div class="row">
+            <div class="col-md-8 col-xs-10">
+                <div class="well panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-4 text-center">
+                                <img src="http://api.randomuser.me/portraits/women/21.jpg" alt="" class="center-block img-circle img-thumbnail img-responsive">
+                                <ul class="list-inline ratings text-center" title="Ratings">
+                                    <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>
+                                    <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>
+                                    <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>
+                                    <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>
+                                    <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>
+                                </ul>
+                            </div>
+                            <!--/col-->
+                            <div class="col-xs-12 col-sm-8">
+                                <h2>Name Here</h2>
+                                <p><strong>Gender: </strong> Male / Female. </p>
+                                <p><strong>Address: </strong>  </p>
+
+                            </div>
+                            <!--/col-->
+                            <div class="clearfix"></div>
+                            <div class="col-xs-12 col-sm-4">
+                                <h2><strong> 207 </strong></h2>
+                                <p><small>Height</small></p>
+
+                            </div>
+                            <!--/col-->
+                            <div class="col-xs-12 col-sm-4">
+                                <h2><strong>245</strong></h2>
+                                <p><small>Weight</small></p>
+
+                            </div>
+                            <!--/col-->
+                            <div class="col-xs-12 col-sm-4">
+                                <h2><strong>43</strong></h2>
+                                <p><small>Age</small></p>
+
+                            </div>
+                            <!--/col-->
+                        </div>
+                        <!--/row-->
+                    </div>
+                    <!--/panel-body-->
+                </div>
+                <!--/panel-->
+            </div>
+            <!--/col-->
+        </div>
+        <!--/row-->
+    </div>
+    <!--/container-->
+    <div class="container">
+        <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        Comments
+                        Conversatin
                     </div>
                     <div class="panel-body comments">
                         <textarea class="form-control" placeholder="Write your comment" rows="5"></textarea>
