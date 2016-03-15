@@ -475,7 +475,7 @@ if($user != "") {
         <div class="modal-dialog modal-lg">
             <div class="modal-content ">
                 <a href="#" class="close-link"><i class="icon_close_alt2"></i></a>
-                <iframe src="profile.php"></iframe>
+
             </div>
         </div>
     </div>
@@ -513,7 +513,7 @@ if($user != "") {
 
 
 
-               <iframe src="profile.php" width="100%"></iframe>
+
 
         </div>
     </div>

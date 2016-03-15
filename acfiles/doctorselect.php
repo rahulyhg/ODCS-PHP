@@ -1,6 +1,83 @@
 <?php
-print_r($_POST);
+require("dbsettings.php");
+$user = $_COOKIE["id"];
+if($user != "") {
+    $chkacqry = "SELECT * FROM `odcs`.`allusers` WHERE uid='$user'";
+    $balqry = "SELECT * FROM `odcs`.`bill` WHERE uid='$user'";
+    mysqli_select_db($dbhandle, $mysqlidb);
+    $result = mysqli_query($dbhandle, $chkacqry) or die("<h2>R1 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+    $count = mysqli_num_rows($result);
+    $row = mysqli_fetch_assoc($result);
+    $name = $row['fname'];
+    $usern = $row["username"];
+    $atype = $row["actp"];
+    $result2 = mysqli_query($dbhandle, $balqry) or die("<h2> R2 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+    $row2 = mysqli_fetch_assoc($result2);
+    $money = $row2['balance'];
+    /**
+    $result = mysqli_query($dbhandle,"SELECT speciality FROM doctor");
+    $storeArray = Array();
+    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+        $storeArray[] =  $row['speciality'];
+    }
+    //print_r($storeArray);
+
+    $sp = array_unique($storeArray);
+    sort($sp);
+    $sp_l = sizeof($sp);
+     * */
+    $spe = $_POST['spl'];
+    $sub = $_POST['sub'];
+    $message = $_POST['msg'];
+    $result3 = mysqli_query($dbhandle,"SELECT * FROM doctor WHERE speciality='$spe'") or die('R3 fuk');
+    $storeArrayUid = Array();
+    $storeArrayAddress = array();
+    $storeArrayGender = array();
+    $storeArrayH = array();
+    $storeArrayEx = array();
+    $storeArrayCo = array();
+    $storeArrayQ = array();
+    $storeArrayName = array();
+    $storeArrayEmail = array();
+    while ($row3 = mysqli_fetch_array($result3, MYSQLI_ASSOC)) {
+        $storeArrayUid[] =  $row3['uid'];
+        $storeArrayAddress[] = $row3['address'];
+        $storeArrayGender[] = $row3['gender'];
+        $storeArrayH[] = $row3['hospital'];
+        $storeArrayEx[] = $row3['experiance'];
+        $storeArrayCo[] = $row3['contact'];
+        $storeArrayQ[] = $row3['Qualification'];
+        $result4 = mysqli_query($dbhandle, "SELECT * FROM `odcs`.`allusers` WHERE uid='".$row3["uid"]."'") or die("<h2> R4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+        $row4 = mysqli_fetch_assoc($result4);
+        $storeArrayName[] = $row4['fname'];
+        $storeArrayEmail[] = $row4['email'];
+    }
+    /**
+    print_r($storeArrayUid);
+    echo "<br>";
+    print_r($storeArrayName);
+    echo "<br>";
+    print_r($storeArrayAddress);
+    echo "<br>";
+    print_r($storeArrayGender);
+    echo "<br>";
+    print_r($storeArrayH);
+    echo "<br>";
+    print_r($storeArrayEx);
+    echo "<br>";
+    print_r($storeArrayCo);
+    echo "<br>";
+    print_r($storeArrayQ);
+*/
+
+    if ($count == 1){
+        $flag =1;
+    }else{
+        $flag =0;
+    }
+}
 ?>
+
 
 <head>
     <title>Bootstrap Example</title>
@@ -12,73 +89,35 @@ print_r($_POST);
 </head>
 <div class="container">
     <div class="page-header">
-        <h1 class="text-center">Who am I?</h1>
+        <h1 class="text-center"><?php echo $sub; ?></h1>
     </div>
-    <p class="lead text-center">I am a creative graphic designer focused on modern eye catching designs. I am not only the graphic designer! I can also do complete websites &amp; computer applications.</p>
+    <p class="lead text-center"><?php echo $message; ?></p>
     <div class="container">
-        <div class="row stylish-panel">
-            <div class="col-md-4">
-                <div>
-                    <img src="http://lorempixel.com/200/200/abstract/1/" alt="Texto Alternativo" class="img-circle img-thumbnail">
-                    <h2>Webdesigner</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <a href="#" class="btn btn-primary" title="See more">See works »</a>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div>
-                    <img src="http://lorempixel.com/200/200/abstract/2/" alt="Texto Alternativo" class="img-circle img-thumbnail">
-                    <h2>Photographer</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <a href="#" class="btn btn-primary" title="See more">See works »</a>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div>
-                    <img src="http://lorempixel.com/200/200/abstract/3/" alt="Texto Alternativo" class="img-circle img-thumbnail">
-                    <h2>Copywriter</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <a href="#" class="btn btn-primary" title="See more">See works »</a>
-                </div>
-            </div>
+        <div class="page-header">
+            <h2 class="text-center">Doctors who you can ask this</h2>
         </div>
         <div class="row stylish-panel">
-            <div class="col-md-4">
+        <?php
+        for($i=0;$i<sizeof($storeArrayUid);$i++){
+          echo '<div class="col-md-4">
                 <div>
-                    <img src="http://lorempixel.com/200/200/abstract/4/" alt="Texto Alternativo" class="img-circle img-thumbnail">
-                    <h2>Webdesigner</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua.
+                    <img src="http://lorempixel.com/200/200/abstract/1/" alt="Texto Alternativo" class="img-circle img-thumbnail">
+                    <h2>'.$storeArrayName[$i].'</h2>
+                    <strong>Gender: </strong>'.$storeArrayGender[$i].'<br>
+                    <strong>Qualification: </strong>'.$storeArrayQ[$i].'<br>
+                    <strong>Experience: </strong>'.$storeArrayEx[$i].'<br>
+                    <strong>Contact: </strong>'.$storeArrayCo[$i].'<br>
+                    <br><strong>Address: </strong><br>
+                    <p>'.$storeArrayAddress[$i].'
                     </p>
                     <a href="#" class="btn btn-primary" title="See more">See works »</a>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div>
-                    <img src="http://lorempixel.com/200/200/abstract/5/" alt="Texto Alternativo" class="img-circle img-thumbnail">
-                    <h2>Photographer</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <a href="#" class="btn btn-primary" title="See more">See works »</a>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div>
-                    <img src="http://lorempixel.com/200/200/abstract/6/" alt="Texto Alternativo" class="img-circle img-thumbnail">
-                    <h2>Copywriter</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <a href="#" class="btn btn-primary" title="See more">See works »</a>
-                </div>
-            </div>
+            </div>';
+            if(($i+1)%3 == 0){
+            echo '</div><div class="row stylish-panel">';
+            }
+          }
+         ?>
         </div>
     </div>
 </div>
