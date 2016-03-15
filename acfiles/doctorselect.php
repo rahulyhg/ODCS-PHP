@@ -1,3 +1,6 @@
+<?php
+print_r($_POST);
+?>
 
 <head>
     <title>Bootstrap Example</title>

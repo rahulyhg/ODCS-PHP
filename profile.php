@@ -99,7 +99,7 @@ if($user != "") {
         <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="text-center">
                 <form class="form-horizontal" role="form" action="acfiles/account.php" method="post">
-                <img src="Red2.jpg" class="avatar img-circle img-thumbnail" alt="avatar">
+                <img src="Red2.jpg" class="avatar img-responsive img-circle img-thumbnail" alt="avatar">
                 <h6>Upload a different photo...</h6>
                 <input type="file" name="j" class="text-center center-block well well-sm">
                     <div class="form-group">
