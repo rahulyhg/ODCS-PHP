@@ -29,6 +29,9 @@ if($user != "") {
     $spe = $_POST['spl'];
     $sub = $_POST['sub'];
     $message = $_POST['msg'];
+    $cid = $uid = md5(uniqid($spe, true));
+    $addconverqry = "INSERT INTO `odcs`.`conversations` (`message`, `subject`, `cid`, `pid`, `did`, `status`, `adoc`) VALUES ('$message', '$sub', '$cid', '$user', 'Non', 'no', '0')";
+    $result5 = mysqli_query($dbhandle,$addconverqry) or die('R5 fuk');
     $result3 = mysqli_query($dbhandle,"SELECT * FROM doctor WHERE speciality='$spe'") or die('R3 fuk');
     $storeArrayUid = Array();
     $storeArrayAddress = array();
@@ -107,10 +110,15 @@ if($user != "") {
                     <strong>Qualification: </strong>'.$storeArrayQ[$i].'<br>
                     <strong>Experience: </strong>'.$storeArrayEx[$i].'<br>
                     <strong>Contact: </strong>'.$storeArrayCo[$i].'<br>
+                    <strong>Email: </strong>'.$storeArrayEmail[$i].'<br>
                     <br><strong>Address: </strong><br>
                     <p>'.$storeArrayAddress[$i].'
                     </p>
-                    <a href="#" class="btn btn-primary" title="See more">See works »</a>
+                    <form role="form" class="form-horizontal" method="get" action="conversation.php">
+                    <input class="form-control" name="cid" id="inputSubject" value="'.$cid.'" type="hidden">
+                    <input class="form-control" name="did" id="inputSubject" value="'.$storeArrayUid[$i].'" type="hidden">
+                    <input type="submit" class="btn btn-primary" value="Ask »">
+                    </form>
                 </div>
             </div>';
             if(($i+1)%3 == 0){

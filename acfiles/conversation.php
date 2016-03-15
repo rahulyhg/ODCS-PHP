@@ -1,4 +1,80 @@
+<?php
+require("dbsettings.php");
+$user = $_COOKIE["id"];
+$cid = $_GET['cid'];
+$did = $_GET['did'];
+if($user != "") {
+    $conqry = "SELECT * FROM `odcs`.`conversations` WHERE cid='$cid'";
+    mysqli_select_db($dbhandle, $mysqlidb);
+    $cresult = mysqli_query($dbhandle, $conqry) or die("<h2>C1 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+    $row = mysqli_fetch_assoc($cresult);
+    $sub = $row['subject'];
+    $message = $row['message'];
+    $status = $row['status'];
+    if($status == 'no') {
+        $addoqry = "UPDATE `odcs`.`conversations` SET `did` = '$did' WHERE `conversations`.`cid` = '$cid'";
+        $cresult2 = mysqli_query($dbhandle, $addoqry) or die("<h2>C2 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+        $balqry1 = "SELECT * FROM `odcs`.`bill` WHERE uid='$user'";
+        $balqry2 = "SELECT * FROM `odcs`.`bill` WHERE uid='$did'";
+        $cresult3 = mysqli_query($dbhandle, $balqry1) or die("<h2>C3 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+        $row3 = mysqli_fetch_assoc($cresult3);
+        $pmoney = $row3['balance'];
+        $cresult4 = mysqli_query($dbhandle, $balqry2) or die("<h2>C4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+        $row4 = mysqli_fetch_assoc($cresult4);
+        $dmoney = $row4['balance'];
+        if($pmoney == 0) {
+            die("<h1>insufficient funds<h1> <a href='/ODCS/index.php'>return home to add funds</a> ");
 
+        }else{
+            $pmoney -= 100;
+            $dmoney =$dmoney + 100;
+            $qry1 = "UPDATE `odcs`.`bill` SET `balance` = '$pmoney' WHERE `bill`.`uid` = '$user'";
+            $qry2 = "UPDATE `odcs`.`bill` SET `balance` = '$dmoney' WHERE `bill`.`uid` = '$did'";
+            $qry = "UPDATE `odcs`.`conversations` SET `status` = '1' WHERE `conversations`.`cid` = '$cid'";
+            $cresult5 = mysqli_query($dbhandle, $qry1) or die("<h2>C5 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+            $cresult6 = mysqli_query($dbhandle, $qry2) or die("<h2>C6 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+            $cresult6 = mysqli_query($dbhandle, $qry) or die("<h2>C7 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+
+        }
+
+    }
+}
+if($user != "") {
+    $chkacqry = "SELECT * FROM `odcs`.`allusers` WHERE uid='$user'";
+    $balqry = "SELECT * FROM `odcs`.`patient` WHERE uid='$user'";
+    mysqli_select_db($dbhandle, $mysqlidb);
+    $result = mysqli_query($dbhandle, $chkacqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+    $count = mysqli_num_rows($result);
+    $row = mysqli_fetch_assoc($result);
+    $name = $row['fname'];
+    $usern = $row["username"];
+    $atype = $row["actp"];
+    $result2 = mysqli_query($dbhandle, $balqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+    $row2 = mysqli_fetch_assoc($result2);
+    $weight = $row2['weight'];
+    $gender = $row2['gender'];
+    $height = $row2['height'];
+    $address = $row2['address'];
+    $dob = $row2['dob'];
+    $a = explode('/',$dob);
+    $age =0;
+    if ($a[1]<3){
+        $age = 2016-$a[2];}
+    elseif ($a[1]>3){
+        $age=2015-$a[2];}
+    else {
+        if($a[0]<=16)
+            $age=2016-$a[2];
+        else $age = 2015-$a[2];
+
+        }
+    if ($count == 1){
+        $flag =1;
+    }else{
+        $flag =0;
+    }
+}
+?>
 <head>
     <title>Bootstrap Example</title>
     <meta charset="utf-8">
@@ -9,9 +85,9 @@
 </head>
 <div class="container">
     <div class="page-header">
-        <h1 class="text-center">Who am I?</h1>
+        <h1 class="text-center"><?php echo $sub; ?></h1>
     </div>
-    <p class="lead text-center">I am a creative graphic designer focused on modern eye catching designs. I am not only the graphic designer! I can also do complete websites &amp; computer applications.</p>
+    <p class="lead text-center"><?php echo $message; ?>.</p>
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-xs-10">
@@ -30,27 +106,27 @@
                             </div>
                             <!--/col-->
                             <div class="col-xs-12 col-sm-8">
-                                <h2>Name Here</h2>
-                                <p><strong>Gender: </strong> Male / Female. </p>
-                                <p><strong>Address: </strong>  </p>
+                                <h2><?php echo $name; ?></h2>
+                                <p><strong>Gender: </strong><?php echo $gender; ?>. </p>
+                                <p><strong>Address: </strong> <?php echo $address; ?> </p>
 
                             </div>
                             <!--/col-->
                             <div class="clearfix"></div>
                             <div class="col-xs-12 col-sm-4">
-                                <h2><strong> 207 </strong></h2>
+                                <h2><strong> <?php echo $height; ?> </strong></h2>
                                 <p><small>Height</small></p>
 
                             </div>
                             <!--/col-->
                             <div class="col-xs-12 col-sm-4">
-                                <h2><strong>245</strong></h2>
+                                <h2><strong><?php echo $weight; ?></strong></h2>
                                 <p><small>Weight</small></p>
 
                             </div>
                             <!--/col-->
                             <div class="col-xs-12 col-sm-4">
-                                <h2><strong>43</strong></h2>
+                                <h2><strong><?php echo $age; ?></strong></h2>
                                 <p><small>Age</small></p>
 
                             </div>
@@ -72,13 +148,16 @@
             <div class="col-md-12">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        Conversatin
+                        Conversation
                     </div>
                     <div class="panel-body comments">
-                        <textarea class="form-control" placeholder="Write your comment" rows="5"></textarea>
+                        <form role="form" class="form-horizontal" method="post" action="conver.php">
+                            <input class="form-control" name="cid" id="inputSubject" value="<?php echo $cid; ?>" type="hidden">
+                        <textarea class="form-control" name="con" placeholder="Write your comment" rows="5"></textarea>
                         <br>
                         <a class="small pull-left" href="#">Login to you existing account</a>
-                        <button type="button" class="btn btn-info pull-right">Submit comment</button>
+                        <input type="submit" class="btn btn-info pull-right" value="send">
+                            </form>
                         <div class="clearfix"></div>
                         <hr>
                         <ul class="media-list">
