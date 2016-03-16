@@ -149,7 +149,7 @@ if($user != "") {
                     <div class="row">
                         <div class="col-md-12 text-center">
                             <h3 class="light white">Take care of your body. <?php echo $usern; ?></h3>
-                            <h1 class="white typed">It's the only place you have to live.</h1>
+                            <h1 class="white typed">Healthy Isn't A Goal. Its a way of living.</h1>
                             <span class="typed-cursor">|</span>
                         </div>
                     </div>

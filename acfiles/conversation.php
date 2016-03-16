@@ -186,7 +186,8 @@ if($user != "") {
                         if($atypec == "Patient"){
                             echo '
                             <a class="small pull-left" href="http://localhost/ODCS">Home </a><br>
-                            <a class="small pull-left" href="close.php?cid='.$cid.'">Close This Case</a>
+                            <a href="#" data-toggle="modal" data-target="#modalCompose" class="btn btn-danger btn-bg pull-left">Close this and review</a>\';
+
 
 
                         <input type="submit" class="btn btn-info pull-right" value="send">
@@ -248,6 +249,43 @@ if($user != "") {
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modalCompose" role="dialog" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Review Box</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" class="form-horizontal" method="post" action="close.php">
+                        <div class="form-group">
+                            <label class="col-sm-2" for="inputTo">Rate</label>
+                            <label class="radio-inline"><input type="radio" value="1" name="optradio">1</label>
+                            <label class="radio-inline"><input type="radio" value="2" name="optradio">2</label>
+                            <label class="radio-inline"><input type="radio" value="3" name="optradio">3</label>
+                            <label class="radio-inline"><input type="radio" value="4" name="optradio">4</label>
+                            <label class="radio-inline"><input type="radio" value="5" name="optradio">5</label>
+                        </div>
+                         <input type="hidden" name="did" value="<?php echo $did; ?>">
+                        <div class="form-group">
+                            <label class="col-sm-12" for="inputBody">Review</label>
+                            <div class="col-sm-12"><textarea name="msg" class="form-control" id="inputBody" rows="8"></textarea></div>
+                        </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+
+                    <input type="submit" class="btn btn-primary " value="Send" >
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal compose message -->
+
 <?php
 /**
  * Created by PhpStorm.
