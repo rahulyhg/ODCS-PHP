@@ -27,7 +27,7 @@ if (isset($_FILES['file'])) {
 
     );
     if (in_array($file_ext, $expensions) === false) {
-        $errors[] = "<h1>Extension not allowed,</h1><br><h2> please choose a PDF file.</h2><br><div align='center' style =\"margin:0 auto\" class=\"sad\"><span></span></div>
+        $errors[] = "<h1>Extension not allowed,</h1><br><h2> please choose a PDF,jpg,mp4,png,doc,docx file.</h2><br><div align='center' style =\"margin:0 auto\" class=\"sad\"><span></span></div>
 "; die();
     }
     if ($file_size > 2097152999) {
