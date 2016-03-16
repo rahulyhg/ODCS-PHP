@@ -266,6 +266,7 @@ if($user != "") {
                             <label class="radio-inline"><input type="radio" value="4" name="optradio">4</label>
                             <label class="radio-inline"><input type="radio" value="5" name="optradio">5</label>
                         </div>
+                        <input type="hidden" name="cid" value="<?php echo $cid; ?>">
                          <input type="hidden" name="did" value="<?php echo $did; ?>">
                         <div class="form-group">
                             <label class="col-sm-12" for="inputBody">Review</label>
