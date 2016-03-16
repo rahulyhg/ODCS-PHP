@@ -11,6 +11,7 @@ if($user != "") {
     $sub = $row['subject'];
     $message = $row['message'];
     $status = $row['status'];
+    $pid = $row['pid'];
     if($status == 'no') {
         $addoqry = "UPDATE `odcs`.`conversations` SET `did` = '$did' WHERE `conversations`.`cid` = '$cid'";
         $cresult2 = mysqli_query($dbhandle, $addoqry) or die("<h2>C2 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
@@ -40,9 +41,16 @@ if($user != "") {
     }
 }
 if($user != "") {
-    $chkacqry = "SELECT * FROM `odcs`.`allusers` WHERE uid='$user'";
-    $balqry = "SELECT * FROM `odcs`.`patient` WHERE uid='$user'";
+    $chkacqry12 = "SELECT * FROM `odcs`.`allusers` WHERE uid='$user'";
+   // $balqry = "SELECT * FROM `odcs`.`patient` WHERE uid='$pid'";
     mysqli_select_db($dbhandle, $mysqlidb);
+    $result12 = mysqli_query($dbhandle, $chkacqry12) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+    $count12 = mysqli_num_rows($result12);
+    $row12 = mysqli_fetch_assoc($result12);
+    $atypec = $row12["actp"];
+    $chkacqry = "SELECT * FROM `odcs`.`allusers` WHERE uid='$pid'";
+    $balqry = "SELECT * FROM `odcs`.`patient` WHERE uid='$pid'";
+    //mysqli_select_db($dbhandle, $mysqlidb);
     $result = mysqli_query($dbhandle, $chkacqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
     $count = mysqli_num_rows($result);
     $row = mysqli_fetch_assoc($result);
@@ -73,7 +81,23 @@ if($user != "") {
     }else{
         $flag =0;
     }
+    $jqry = "SELECT * FROM conversation WHERE cid='$cid'";
+    $result10 = mysqli_query($dbhandle,$jqry) or die("conv errr");
+    $msge = Array();
+    $cname = Array();
+    $noe = Array();
+    $atypep = array();
+    while ($row10 = mysqli_fetch_array($result10, MYSQLI_ASSOC)) {
+        $msge[] =  $row10['msg'];
+        $noe[] =  $row10['no'];
+        $result40 = mysqli_query($dbhandle, "SELECT * FROM `odcs`.`allusers` WHERE uid='".$row10["mid"]."'") or die("<h2> CoR4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+        $row40 = mysqli_fetch_assoc($result40);
+        $cname[] = $row40['fname'];
+        $atypep[] = $row40['actp'];
+
+    }
 }
+
 ?>
 <head>
     <title>Bootstrap Example</title>
@@ -95,7 +119,7 @@ if($user != "") {
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-xs-12 col-sm-4 text-center">
-                                <img src="http://api.randomuser.me/portraits/women/21.jpg" alt="" class="center-block img-circle img-thumbnail img-responsive">
+                                <img src="http://localhost/ODCS/acfiles/img/patient.png" alt="" class="center-block img-circle img-thumbnail img-responsive">
                                 <ul class="list-inline ratings text-center" title="Ratings">
                                     <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>
                                     <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>
@@ -152,110 +176,65 @@ if($user != "") {
                     </div>
                     <div class="panel-body comments">
                         <form role="form" class="form-horizontal" method="post" action="conver.php">
+                            <input class="form-control" name="did" id="inputSubject" value="<?php echo $did; ?>" type="hidden">
                             <input class="form-control" name="cid" id="inputSubject" value="<?php echo $cid; ?>" type="hidden">
                         <textarea class="form-control" name="con" placeholder="Write your comment" rows="5"></textarea>
                         <br>
-                        <a class="small pull-left" href="#">Login to you existing account</a>
+
+                        <?php
+                        if($atypec == "Patient"){
+                            echo '<a class="small pull-left" href="#">Close This Case</a>
                         <input type="submit" class="btn btn-info pull-right" value="send">
                             </form>
                         <div class="clearfix"></div>
-                        <hr>
-                        <ul class="media-list">
+                        <hr>';
+                        }elseif($atypec == "Doctor"){
+                            echo '<a class="small pull-left" href="#"></a>
+                        <input type="submit" class="btn btn-info pull-right" value="send">
+                            </form>
+                        <div class="clearfix"></div>
+                        <hr>';
+                        }
+                        for($i=(sizeof($cname)-1);$i>=0;$i--){
+                            if($atypep[$i] == "Patient") {
+                                echo '  <ul class="media-list">
                             <li class="media">
                                 <div class="comment">
                                     <a href="#" class="pull-left">
-                                        <img src="http://lorempixel.com/60/60/animals/?sf5saf" alt="" class="img-circle">
+                                        <img src="http://localhost/ODCS/acfiles/img/rsz_patient.png" alt="" class="img-circle">
                                     </a>
                                     <div class="media-body">
-                                        <strong class="text-success">Jane Doe</strong>
+                                        <strong class="text-success">' . $cname[$i] . '</strong>
                   <span class="text-muted">
-                  <small class="text-muted">6 days ago</small>
+                  <small class="text-muted"> #' . $noe[$i] . ' </small>
                   </span>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Lorem ipsum dolor sit amet, <a href="#">#some link </a>.
-                                        </p>
+                                        <p>' . $msge[$i] . '
+                                          </p>
                                     </div>
                                     <div class="clearfix"></div>
-                                </div>
-                                <ul class="media-list">
-                                    <li class="media">
-                                        <div class="comment">
-                                            <a href="#" class="pull-left">
-                                                <img src="http://lorempixel.com/60/60/animals/?Fsf6sf6" alt="" class="img-circle">
-                                            </a>
-                                            <div class="media-body">
-                                                <strong class="text-success">MrAwesome</strong>
-                      <span class="text-muted">
-                      <small class="text-muted">2 days ago</small>
-                      </span>
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                    Lorem ipsum dolor sit amet.
-                                                </p>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    </li>
-                                    <li class="media">
-                                        <div class="comment">
-                                            <a href="#" class="pull-left">
-                                                <img src="http://lorempixel.com/60/60/animals/?Fsgdsg" alt="" class="img-circle">
-                                            </a>
-                                            <div class="media-body">
-                                                <strong class="text-success">Miss Lucia</strong>
-                      <span class="text-muted">
-                      <small class="text-muted">15 minutes ago</small>
-                      </span>
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                    Lorem ipsum dolor sit amet.
-                                                </p>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
+                                </div>';
+                            }else{
+                                echo '  <ul class="media-list">
                             <li class="media">
                                 <div class="comment">
                                     <a href="#" class="pull-left">
-                                        <img src="http://lorempixel.com/60/60/animals/?qrwegsg" alt="" class="img-circle">
+                                        <img src="http://localhost/ODCS/acfiles/img/rsz_doctor.png" alt="" class="img-circle">
                                     </a>
                                     <div class="media-body">
-                                        <strong class="text-success">Jana Cova</strong>
+                                        <strong class="text-success">' . $cname[$i] . '</strong>
                   <span class="text-muted">
-                  <small class="text-muted">12 days ago</small>
+                  <small class="text-muted"> #' . $noe[$i] . ' </small>
                   </span>
-                  <span class="text-muted pull-right">
-                  <small class="btn btn-danger btn-xs"><i class="fa fa-times"></i> Remove</small>
-                  </span>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Lorem ipsum dolor sit amet.
-                                        </p>
+                                        <p>' . $msge[$i] . '
+                                          </p>
                                     </div>
                                     <div class="clearfix"></div>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="comment">
-                                    <a href="#" class="pull-left">
-                                        <img src="http://lorempixel.com/60/60/animals/?setrtss" alt="" class="img-circle">
-                                    </a>
-                                    <div class="media-body">
-                                        <strong class="text-success">Johnatan Smarty</strong>
-                  <span class="text-muted">
-                  <small class="text-muted">1 month ago</small>
-                  </span>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
-                                        </p>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </li>
+                                </div>';
+                            }
+                        }
+                        $i--
+                        ?>
+                           </li>
                         </ul>
                     </div>
                 </div>
