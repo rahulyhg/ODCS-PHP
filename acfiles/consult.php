@@ -20,6 +20,7 @@ if($user != "") {
     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         $storeArray[] =  $row['speciality'];
     }
+
     //print_r($storeArray);
     $sp = array_unique($storeArray);
     sort($sp);
@@ -32,7 +33,7 @@ if($user != "") {
 }
 ?>
 <head>
-    <title>Bootstrap Example</title>
+    <title>Consltation Page</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -46,35 +47,103 @@ if($user != "") {
         <div class="panel-heading">Personal Consultation Page</div>
         <div class="panel-body">
             <table class="table table-striped table-hover">
-                <thead>
+
+                <?php
+                if($atype == "Patient"){
+                    $seletqry = "SELECT * FROM `conversations` WHERE pid='$user'";
+                    $result65 = mysqli_query($dbhandle, $seletqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+                    $subject = array();
+                    $dname = array();
+                    $did = array();
+                    $cid = array();
+                    $status = array();
+                    //$link = array();
+                    while ($row = mysqli_fetch_array($result65, MYSQLI_ASSOC)) {
+                        $subject[] = $row['subject'];
+                        $status[] = $row['status'];
+                        $did[] = $row['did'];
+                        $cid[] = $row['cid'];
+                        $result40 = mysqli_query($dbhandle, "SELECT * FROM `odcs`.`allusers` WHERE uid='".$row["did"]."'") or die("<h2> CoR4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+                        $row40 = mysqli_fetch_assoc($result40);
+                        $dname[] = $row40['fname'];
+
+                    }
+                    echo '<thead>
                 <tr>
-                    <th colspan="2">Questin</th>
-                    <th>Asked Date</th>
-                    <th>Status</th>
+                    <th colspan="2">Question</th>
                     <th>Doctor Name</th>
+                    <th>Status</th>
+                    <th>Link</th>
                 </tr>
-                </thead>
-                <tbody>
-                <tr>
+                </thead><tbody>';
+                    for($i=0;$i<sizeof($subject);$i++){
+
+                        echo '   <tr>
                     <td><img src="http://lorempixel.com/40/40/food?afK5dD" class="img-thumbnail" alt="Item description" title="Some shop item">
                     </td>
-                    <td>Fuk ass</td>
-                    <td>12.12.12</td>
-                    <td>unsolvesd</td>
-                    <td>gokul</td>
-                </tr>
-                <tr>
-                    <td><img src="http://lorempixel.com/40/40/food?L5EddA5" class="img-thumbnail" alt="Item description" title="Some shop item">
-                    </td>
-                    <td>Fuk pussy</td>
-                    <td>12.12.12</td>
-                    <td>unsolvesd</td>
-                    <td>gokul</td>
-                </tr>
-
+                    <td>'.$subject[$i].'</td>
+                    <td>'.$dname[$i].'</td>
+                    <td>'.$status[$i].'</td>
+                    <td><a href="http://localhost/ODCS/acfiles/conversation.php?cid='.$cid[$i].'&did='.$did[$i].'">View this</a></td>
+                </tr>';
+                    }
+                    echo'
                 </tbody>
             </table>
-            <a href="#" data-toggle="modal" data-target="#modalCompose" class="btn btn-primary btn-bg pull-right">Add Consult</a>
+            <a href="#" data-toggle="modal" data-target="#modalCompose" class="btn btn-primary btn-bg pull-right">Add Consult</a>';
+
+
+
+                }elseif($atype == 'Doctor'){
+                    $seletqry = "SELECT * FROM `conversations` WHERE did='$user'";
+                    $result65 = mysqli_query($dbhandle, $seletqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+                    $subject = array();
+                    $dname = array();
+                    $pid = array();
+                    $cid = array();
+                    $status = array();
+                    //$link = array();
+                    while ($row = mysqli_fetch_array($result65, MYSQLI_ASSOC)) {
+                        $subject[] = $row['subject'];
+                        $status[] = $row['status'];
+                        $pid[] = $row['pid'];
+                        $cid[] = $row['cid'];
+                        $result40 = mysqli_query($dbhandle, "SELECT * FROM `odcs`.`allusers` WHERE uid='".$row["pid"]."'") or die("<h2> CoR4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+                        $row40 = mysqli_fetch_assoc($result40);
+                        $dname[] = $row40['fname'];
+
+                    }
+                    echo '<thead>
+                <tr>
+                    <th colspan="2">Question</th>
+                    <th>Patient Name</th>
+                    <th>Status</th>
+                    <th>Link</th>
+                </tr>
+                </thead><tbody>';
+                    for($i=0;$i<sizeof($subject);$i++){
+
+                        echo '   <tr>
+                    <td><img src="http://lorempixel.com/40/40/food?afK5dD" class="img-thumbnail" alt="Item description" title="Some shop item">
+                    </td>
+                    <td>'.$subject[$i].'</td>
+                    <td>'.$dname[$i].'</td>
+                    <td>'.$status[$i].'</td>
+                    <td><a href="http://localhost/ODCS/acfiles/conversation.php?cid='.$cid[$i].'&did='.$user.'">View this</a></td>
+                </tr>';
+                    }
+                    echo'
+                </tbody>
+            </table>
+            <a href="#" data-toggle="modal" data-target="#modalCompose" class="btn btn-primary btn-bg pull-right">Add Consult</a>';
+
+
+
+                }
+                ?>
+
+
+
         </div>
     </div>
 </div>
