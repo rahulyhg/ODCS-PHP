@@ -14,6 +14,7 @@ if($user != "") {
     $result2 = mysqli_query($dbhandle, $balqry) or die("<h2> R2 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
     $row2 = mysqli_fetch_assoc($result2);
     $money = $row2['balance'];
+
     /**
     $result = mysqli_query($dbhandle,"SELECT speciality FROM doctor");
     $storeArray = Array();
@@ -42,6 +43,7 @@ if($user != "") {
     $storeArrayQ = array();
     $storeArrayName = array();
     $storeArrayEmail = array();
+    $avgrating = array();
     while ($row3 = mysqli_fetch_array($result3, MYSQLI_ASSOC)) {
         $storeArrayUid[] =  $row3['uid'];
         $storeArrayAddress[] = $row3['address'];
@@ -54,6 +56,15 @@ if($user != "") {
         $row4 = mysqli_fetch_assoc($result4);
         $storeArrayName[] = $row4['fname'];
         $storeArrayEmail[] = $row4['email'];
+        $result5 = mysqli_query($dbhandle, "SELECT AVG(rate) AS rate FROM rating WHERE did='".$row3["uid"]."'") or die("<h2> R4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+        $row5 = mysqli_fetch_assoc($result5);
+        if($row5['rate'] == NULL){
+            $rating[] = 'Not Rated Yet';
+        }else{
+            $rating[] = $row5['rate'];
+        }
+
+
     }
     /**
     print_r($storeArrayUid);
@@ -106,6 +117,9 @@ if($user != "") {
                 <div>
                     <img src="http://localhost/ODCS/acfiles/img/doctor.png" alt="Texto Alternativo" class="img-circle img-thumbnail">
                     <h2>'.$storeArrayName[$i].'</h2>
+                    <strong><a class="btn btn-warning" href="http://localhost/ODCS/acfiles/review.php?did=\'.$storeArrayUid[$i].\'">Reviews</a></strong>
+                    <br>
+                    <strong>Rating: </strong>'.$rating[$i].'<br>
                     <strong>Gender: </strong>'.$storeArrayGender[$i].'<br>
                     <strong>Qualification: </strong>'.$storeArrayQ[$i].'<br>
                     <strong>Experience: </strong>'.$storeArrayEx[$i].'<br>
@@ -113,7 +127,8 @@ if($user != "") {
                     <strong>Email: </strong>'.$storeArrayEmail[$i].'<br>
                     <br><strong>Address: </strong><br>
                     <p>'.$storeArrayAddress[$i].'
-                    </p>
+                    </p><br>
+                    <br>
                     <form role="form" class="form-horizontal" method="get" action="conversation.php">
                     <input class="form-control" name="cid" id="inputSubject" value="'.$cid.'" type="hidden">
                     <input class="form-control" name="did" id="inputSubject" value="'.$storeArrayUid[$i].'" type="hidden">

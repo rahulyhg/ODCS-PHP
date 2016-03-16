@@ -106,6 +106,7 @@ if($user != "") {
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script src="js/jquery-1.12.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+
 </head>
 <div class="container">
     <div class="page-header">
@@ -176,10 +177,12 @@ if($user != "") {
                         Conversation
                     </div>
                     <div class="panel-body comments">
-                        <form role="form" class="form-horizontal" method="post" action="conver.php">
+                        <form role="form" class="form-horizontal" method="post" action="conver.php" enctype="multipart/form-data">
                             <input class="form-control" name="did" id="inputSubject" value="<?php echo $did; ?>" type="hidden">
                             <input class="form-control" name="cid" id="inputSubject" value="<?php echo $cid; ?>" type="hidden">
                         <textarea class="form-control" name="con" placeholder="Write your comment" rows="5"></textarea>
+                            <label class="control-label">Select File</label>
+                            <input id="input-1" type="file" name="file" class="file">
                         <br>
 
                         <?php
