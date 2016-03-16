@@ -99,16 +99,14 @@ if($user != "") {
         <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="text-center">
                 <form class="form-horizontal" role="form" action="acfiles/account.php" method="post">
-                <img src="http://lorempixel.com/200/200/abstract/5/" class="avatar img-responsive img-circle img-thumbnail" alt="avatar">
-                <h6>Upload a different photo...</h6>
-                <input type="file" name="j" class="text-center center-block well well-sm">
-                    <div class="form-group">
-                        <label class="col-md-3 control-label"></label>
-                        <div class="col-md-6">
-                            <input type="submit" class="btn btn-primary" value="Upload">
-
-                        </div>
-                    </div>
+                    <?php
+                    if($atype == 'Patient') {
+                       echo' <img src = "http://localhost/ODCS/acfiles/img/patient.png" class="avatar img-responsive img-circle img-thumbnail" alt = "avatar" >
+                ';}else{
+                        echo' <img src = "http://localhost/ODCS/acfiles/img/doctor.png" class="avatar img-responsive img-circle img-thumbnail" alt = "avatar" >
+                ';
+                    }
+                    ?>
                 </form>
             </div>
         </div>
@@ -167,7 +165,8 @@ if($user != "") {
                     <div class="col-md-8" >
                         <input type = "submit" class="btn btn-primary" value = "Save Changes" >
                         <span ></span >
-                        <input class="btn btn-default" value = "Cancel" type = "reset" >
+                       <a href="http://localhost/ODCS/" class="btn btn-default"  >Cancel</a>
+
                     </div >
                 </div >
             </form >';
@@ -231,7 +230,7 @@ if($user != "") {
                     <div class="col-md-8" >
                         <input type = "submit" class="btn btn-primary" value = "Save Changes" >
                         <span ></span >
-                        <input class="btn btn-default" value = "Cancel" type = "reset" >
+                        <a href="http://localhost/ODCS/" class="btn btn-default"  >Cancel</a>
                     </div >
                 </div >
             </form ><br>';

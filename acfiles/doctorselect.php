@@ -30,7 +30,7 @@ if($user != "") {
     $sub = $_POST['sub'];
     $message = $_POST['msg'];
     $cid = $uid = md5(uniqid($spe, true));
-    $addconverqry = "INSERT INTO `odcs`.`conversations` (`message`, `subject`, `cid`, `pid`, `did`, `status`, `adoc`) VALUES ('$message', '$sub', '$cid', '$user', 'Non', 'no', '0')";
+    $addconverqry = "INSERT INTO `odcs`.`conversations` (`message`, `subject`, `cid`, `pid`, `did`, `status`, `adoc`) VALUES ('$message', '$sub', '$cid', '$user', 'Non', 'Asked', '0')";
     $result5 = mysqli_query($dbhandle,$addconverqry) or die('R5 fuk');
     $result3 = mysqli_query($dbhandle,"SELECT * FROM doctor WHERE speciality='$spe'") or die('R3 fuk');
     $storeArrayUid = Array();
@@ -104,7 +104,7 @@ if($user != "") {
         for($i=0;$i<sizeof($storeArrayUid);$i++){
           echo '<div class="col-md-4">
                 <div>
-                    <img src="http://lorempixel.com/200/200/abstract/1/" alt="Texto Alternativo" class="img-circle img-thumbnail">
+                    <img src="http://localhost/ODCS/acfiles/img/doctor.png" alt="Texto Alternativo" class="img-circle img-thumbnail">
                     <h2>'.$storeArrayName[$i].'</h2>
                     <strong>Gender: </strong>'.$storeArrayGender[$i].'<br>
                     <strong>Qualification: </strong>'.$storeArrayQ[$i].'<br>

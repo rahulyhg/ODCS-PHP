@@ -89,7 +89,7 @@ if($user != "") {
                     }
                     echo'
                 </tbody>
-            </table>
+            </table><a class="small pull-left" href="http://localhost/ODCS">back</a>
             <a href="#" data-toggle="modal" data-target="#modalCompose" class="btn btn-primary btn-bg pull-right">Add Consult</a>';
 
 
@@ -134,8 +134,8 @@ if($user != "") {
                     }
                     echo'
                 </tbody>
-            </table>
-            <a href="#" data-toggle="modal" data-target="#modalCompose" class="btn btn-primary btn-bg pull-right">Add Consult</a>';
+            </table><a class="small pull-left" href="http://localhost/ODCS">Back</a>
+           ';
 
 
 

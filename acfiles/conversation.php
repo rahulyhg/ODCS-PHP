@@ -12,7 +12,7 @@ if($user != "") {
     $message = $row['message'];
     $status = $row['status'];
     $pid = $row['pid'];
-    if($status == 'no') {
+    if($status == 'Asked') {
         $addoqry = "UPDATE `odcs`.`conversations` SET `did` = '$did' WHERE `conversations`.`cid` = '$cid'";
         $cresult2 = mysqli_query($dbhandle, $addoqry) or die("<h2>C2 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
         $balqry1 = "SELECT * FROM `odcs`.`bill` WHERE uid='$user'";
@@ -31,7 +31,7 @@ if($user != "") {
             $dmoney =$dmoney + 100;
             $qry1 = "UPDATE `odcs`.`bill` SET `balance` = '$pmoney' WHERE `bill`.`uid` = '$user'";
             $qry2 = "UPDATE `odcs`.`bill` SET `balance` = '$dmoney' WHERE `bill`.`uid` = '$did'";
-            $qry = "UPDATE `odcs`.`conversations` SET `status` = '1' WHERE `conversations`.`cid` = '$cid'";
+            $qry = "UPDATE `odcs`.`conversations` SET `status` = 'Active' WHERE `conversations`.`cid` = '$cid'";
             $cresult5 = mysqli_query($dbhandle, $qry1) or die("<h2>C5 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
             $cresult6 = mysqli_query($dbhandle, $qry2) or die("<h2>C6 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
             $cresult6 = mysqli_query($dbhandle, $qry) or die("<h2>C7 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
@@ -111,6 +111,7 @@ if($user != "") {
     <div class="page-header">
         <h1 class="text-center"><?php echo $sub; ?></h1>
     </div>
+
     <p class="lead text-center"><?php echo $message; ?>.</p>
     <div class="container">
         <div class="row">
@@ -183,13 +184,19 @@ if($user != "") {
 
                         <?php
                         if($atypec == "Patient"){
-                            echo '<a class="small pull-left" href="#">Close This Case</a>
+                            echo '
+                            <a class="small pull-left" href="http://localhost/ODCS">Home </a><br>
+                            <a class="small pull-left" href="close.php?cid='.$cid.'">Close This Case</a>
+
+
                         <input type="submit" class="btn btn-info pull-right" value="send">
+
                             </form>
                         <div class="clearfix"></div>
                         <hr>';
                         }elseif($atypec == "Doctor"){
                             echo '<a class="small pull-left" href="#"></a>
+<a class=" pull-left" href="http://localhost/ODCS">Home</a>
                         <input type="submit" class="btn btn-info pull-right" value="send">
                             </form>
                         <div class="clearfix"></div>
