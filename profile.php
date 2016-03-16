@@ -98,7 +98,7 @@ if($user != "") {
         <!-- left column -->
         <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="text-center">
-                <form class="form-horizontal" role="form" action="acfiles/account.php" method="post">
+                <form class="form-horizontal" role="form" action="acfiles/file.php" method="post">
                     <?php
                     if($atype == 'Patient') {
                        echo' <img src = "http://localhost/ODCS/acfiles/img/patient.png" class="avatar img-responsive img-circle img-thumbnail" alt = "avatar" >
@@ -107,6 +107,7 @@ if($user != "") {
                 ';
                     }
                     ?>
+
                 </form>
             </div>
         </div>

@@ -157,7 +157,7 @@ if($user != "") {
             </div>
         </div>
     </header>
-    <section>
+    <section hidden>
         <div class="cut cut-top"></div>
         <div class="container">
             <div class="row intro-tables">
@@ -290,8 +290,8 @@ if($user != "") {
                         <div class="icon-holder">
                             <img src="img/icons/heart-blue.png" alt="" class="icon">
                         </div>
-                        <h4 class="heading">Cardio Training</h4>
-                        <p class="description">A elementum ligula lacus ac quam ultrices a scelerisque praesent vel suspendisse scelerisque a aenean hac montes.</p>
+                        <h4 class="heading">Physiotherapy</h4>
+                        <p class="description">Online Physiotherapy training headed By Dr Sankara Acharya MBBS MD Physiotherapy USA</p>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -299,8 +299,8 @@ if($user != "") {
                         <div class="icon-holder">
                             <img src="img/icons/guru-blue.png" alt="" class="icon">
                         </div>
-                        <h4 class="heading">Yoga Pilates</h4>
-                        <p class="description">A elementum ligula lacus ac quam ultrices a scelerisque praesent vel suspendisse scelerisque a aenean hac montes.</p>
+                        <h4 class="heading">Yoga pilates</h4>
+                        <p class="description">Yoga has gained world wide acceptance.Our free yoga pilates will guide  through the enitre process</p>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -309,7 +309,7 @@ if($user != "") {
                             <img src="img/icons/weight-blue.png" alt="" class="icon">
                         </div>
                         <h4 class="heading">Power Training</h4>
-                        <p class="description">A elementum ligula lacus ac quam ultrices a scelerisque praesent vel suspendisse scelerisque a aenean hac montes.</p>
+                        <p class="description">Power gives you vital energy for your daily needs.</p>
                     </div>
                 </div>
             </div>
@@ -327,54 +327,54 @@ if($user != "") {
                     <div class="team text-center">
                         <div class="cover" style="background:url('img/team/team-cover1.jpg'); background-size:cover;">
                             <div class="overlay text-center">
-                                <h3 class="white">$69.00</h3>
-                                <h5 class="light light-white">1 - 5 sessions / month</h5>
+                                <h3 class="white"></h3>
+                                <h5 class="light light-white"></h5>
                             </div>
                         </div>
                         <img src="img/team/team3.jpg" alt="Team Image" class="avatar">
                         <div class="title">
-                            <h4>Ben Adamson</h4>
-                            <h5 class="muted regular">Fitness Instructor</h5>
+                            <h4>Dr. Aswin Augustine</h4>
+                            <h5 class="muted regular">Yoga Instructor</h5>
                         </div>
-                        <button data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill">Sign Up Now</button>
+
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="team text-center">
                         <div class="cover" style="background:url('img/team/team-cover2.jpg'); background-size:cover;">
                             <div class="overlay text-center">
-                                <h3 class="white">$69.00</h3>
-                                <h5 class="light light-white">1 - 5 sessions / month</h5>
+                                <h3 class="white"></h3>
+                                <h5 class="light light-white"></h5>
                             </div>
                         </div>
                         <img src="img/team/team1.jpg" alt="Team Image" class="avatar">
                         <div class="title">
-                            <h4>Eva Williams</h4>
-                            <h5 class="muted regular">Personal Trainer</h5>
+                            <h4>Dr. Amesh S</h4>
+                            <h5 class="muted regular">Physiotherapy</h5>
                         </div>
-                        <a href="#" data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill ripple">Sign Up Now</a>
+
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="team text-center">
                         <div class="cover" style="background:url('img/team/team-cover3.jpg'); background-size:cover;">
                             <div class="overlay text-center">
-                                <h3 class="white">$69.00</h3>
-                                <h5 class="light light-white">1 - 5 sessions / month</h5>
+                                <h3 class="white"></h3>
+                                <h5 class="light light-white"></h5>
                             </div>
                         </div>
                         <img src="img/team/team2.jpg" alt="Team Image" class="avatar">
                         <div class="title">
-                            <h4>John Phillips</h4>
+                            <h4>Dr. Sebin P Johnson</h4>
                             <h5 class="muted regular">Personal Trainer</h5>
                         </div>
-                        <a href="#" data-toggle="modal" data-target="#modal1" class="btn btn-blue-fill ripple">Sign Up Now</a>
+
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section id="pricing" class="section">
+    <section id="pricing" class="section" hidden>
         <div class="container">
             <div class="row title text-center">
                 <h2 class="margin-top white">Pricing</h2>
@@ -420,7 +420,7 @@ if($user != "") {
             </div>
         </div>
     </section>
-    <section class="section section-padded blue-bg">
+    <section class="section section-padded blue-bg" hidden>
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
@@ -517,7 +517,7 @@ if($user != "") {
 
         </div>
     </div>
-    <footer>
+    <footer hidden>
         <div class="container">
             <div class="row">
                 <div class="col-sm-6 text-center-mobile">

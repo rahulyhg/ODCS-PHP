@@ -79,10 +79,10 @@ if($user != "") {
                     for($i=0;$i<sizeof($subject);$i++){
 
                         echo '   <tr>
-                    <td><img src="http://lorempixel.com/40/40/food?afK5dD" class="img-thumbnail" alt="Item description" title="Some shop item">
+                    <td><img src="img/question.png" class="img-thumbnail" alt="Item description" title="Some shop item">
                     </td>
                     <td>'.$subject[$i].'</td>
-                    <td>'.$dname[$i].'</td>
+                    <td>Dr. '.$dname[$i].'</td>
                     <td>'.$status[$i].'</td>
                     <td><a href="http://localhost/ODCS/acfiles/conversation.php?cid='.$cid[$i].'&did='.$did[$i].'">View this</a></td>
                 </tr>';
@@ -124,7 +124,7 @@ if($user != "") {
                     for($i=0;$i<sizeof($subject);$i++){
 
                         echo '   <tr>
-                    <td><img src="http://lorempixel.com/40/40/food?afK5dD" class="img-thumbnail" alt="Item description" title="Some shop item">
+                    <td><img src="img/question.png" class="img-thumbnail" alt="Item description" title="Some shop item">
                     </td>
                     <td>'.$subject[$i].'</td>
                     <td>'.$dname[$i].'</td>

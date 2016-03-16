@@ -100,7 +100,7 @@ if($user != "") {
 
 ?>
 <head>
-    <title>Bootstrap Example</title>
+    <title>Consultation Page</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -228,7 +228,7 @@ if($user != "") {
                                         <img src="http://localhost/ODCS/acfiles/img/rsz_doctor.png" alt="" class="img-circle">
                                     </a>
                                     <div class="media-body">
-                                        <strong class="text-success">' . $cname[$i] . '</strong>
+                                        <strong class="text-success">Dr. ' . $cname[$i] . '</strong>
                   <span class="text-muted">
                   <small class="text-muted"> #' . $noe[$i] . ' </small>
                   </span>
