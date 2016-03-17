@@ -144,7 +144,7 @@ if($user != "") {
                             </div>
                             <!--/col-->
                             <div class="col-xs-12 col-sm-8">
-                                <h2><?php echo $name; ?></h2>
+                                <h2><a href="http://localhost/ODCS/acfiles/pr.php?pid=<?php echo $pid; ?>" target="_blank"><?php echo $name; ?></a></h2>
                                 <p><strong>Gender: </strong><?php echo $gender; ?>. </p>
                                 <p><strong>Address: </strong> <?php echo $address; ?> </p>
 
@@ -191,7 +191,7 @@ if($user != "") {
     <div class="panel panel-default" >
         <div class="panel-heading" >Prescription #'.$pno[$i].' Given on : '.$time[$i].'</div >
         <div class="panel-body" >'.$pmsg[$i].'</div >
-        <div class="panel-footer" ><a href="http://localhost/ODCS/acfiles/print.php?pid='.$prep[$i].'">Print</a></div >
+        <div class="panel-footer" ><a href="http://localhost/ODCS/acfiles/print.php?pid='.$prep[$i].'" target="_blank">Print</a></div >
     </div >
     </div >
     </div >

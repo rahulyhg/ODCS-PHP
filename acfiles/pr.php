@@ -63,6 +63,27 @@ while ($row10 = mysqli_fetch_array($result101, MYSQLI_ASSOC)) {
             </div>
         </li>
         ';
+             // file Query
+             echo '<li>
+
+            <div class="timeline-panel">
+                <div class="timeline-heading">
+                    <h4 class="timeline-title">Files Upload For this</h4>
+                    <p><small class="text-muted">File List</small></p>
+                </div><div class="timeline-body">
+                ';
+             $fqry = "SELECT * FROM `odcs`.`file` WHERE cid='".$cid[$i]."'";
+             $result1011 = mysqli_query($dbhandle, $fqry) or die("pconv errr" . mysqli_error($dbhandle));
+             while ($row11 = mysqli_fetch_array($result1011, MYSQLI_ASSOC)){
+                 echo '
+                    <p><a href="http://localhost/ODCS/acfiles/file/'.$row11['fid'].'">'.$row11['fid'].'</a></p>
+
+         ';
+             }
+             echo ' </div>  </div>
+        </li>';
+             //file query
+
              $jqry1 = "SELECT * FROM `odcs`.`prescription` WHERE cid='" . $cid[$i] . "'";
              $result101 = mysqli_query($dbhandle, $jqry1) or die("pconv errr" . mysqli_error($dbhandle));
              $pmsg1 = Array();
@@ -112,6 +133,27 @@ while ($row10 = mysqli_fetch_array($result101, MYSQLI_ASSOC)) {
             </div>
         </li>
         ';
+             // file Query
+             echo '<li class="timeline-inverted">
+
+            <div class="timeline-panel">
+                <div class="timeline-heading">
+                    <h4 class="timeline-title">Files Upload For this</h4>
+                    <p><small class="text-muted">File List</small></p>
+                </div><div class="timeline-body">
+                ';
+             $fqry = "SELECT * FROM `odcs`.`file` WHERE cid='".$cid[$i]."'";
+             $result1011 = mysqli_query($dbhandle, $fqry) or die("pconv errr" . mysqli_error($dbhandle));
+             while ($row11 = mysqli_fetch_array($result1011, MYSQLI_ASSOC)){
+                 echo '
+                    <p><a href="http://localhost/ODCS/acfiles/file/'.$row11['fid'].'">'.$row11['fid'].'</a></p>
+
+         ';
+             }
+             echo ' </div>  </div>
+        </li>';
+             //file query
+
              $jqry1 = "SELECT * FROM `odcs`.`prescription` WHERE cid='" . $cid[$i] . "'";
              $result101 = mysqli_query($dbhandle, $jqry1) or die("pconv errr" . mysqli_error($dbhandle));
              $pmsg1 = Array();
@@ -133,6 +175,7 @@ while ($row10 = mysqli_fetch_array($result101, MYSQLI_ASSOC)) {
                  $dname1[] = $row40['fname'];
 
              }
+
              for ($j = 0; $j < sizeof($pmsg1); $j++) {
                  echo '<li class="timeline-inverted">
 
