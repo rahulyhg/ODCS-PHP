@@ -9,6 +9,11 @@ $row = mysqli_fetch_assoc($result);
 //print_r($row);
 $pr = $row['pre'];
 $did =$row['did'];
+$pid =$row['pid'];
+$chkacqry = "SELECT * FROM `odcs`.`allusers` WHERE uid='$pid'";
+$result2 = mysqli_query($dbhandle, $chkacqry) or die('Error on name');
+$row2 = mysqli_fetch_assoc($result2);
+$name = $row2['fname'];
 ?>
 <head>
     <title>Patient Prescription Page</title>
@@ -20,7 +25,7 @@ $did =$row['did'];
 </head>
 <div class="container">
     <div class="page-header">
-        <h1 class="text-center">Prescription</h1>
+        <h1 class="text-center">Prescription for <?php echo $name; ?></h1>
     </div>
     <div class="page-header">
         <small>ODCS Prescription SIGNATURE</small>

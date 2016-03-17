@@ -27,6 +27,8 @@ if($type == 'Message') {
             'mp4',
             'avi',
             'png',
+            'DCM',
+            'dcm'
 
         );
         if (in_array($file_ext, $expensions) === false) {

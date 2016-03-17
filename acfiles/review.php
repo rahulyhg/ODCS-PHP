@@ -123,7 +123,7 @@ if($user != "") {
     </p></div>
     <div class="container" style="margin-top: 60px">
     <div class="panel panel-primary">
-        <div class="panel-heading">Personal Consultation Page</div>
+        <div class="panel-heading">Reviews</div>
         <div class="panel-body">
             <table class="table table-striped table-hover">
     ';

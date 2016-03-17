@@ -117,7 +117,7 @@ if($user != "") {
                 <div>
                     <img src="http://localhost/ODCS/acfiles/img/doctor.png" alt="Texto Alternativo" class="img-circle img-thumbnail">
                     <h2>'.$storeArrayName[$i].'</h2>
-                    <strong><a class="btn btn-warning" href="http://localhost/ODCS/acfiles/review.php?did=\'.$storeArrayUid[$i].\'">Reviews</a></strong>
+                    <strong><a class="btn btn-warning" href="http://localhost/ODCS/acfiles/review.php?did='.$storeArrayUid[$i].'" target="_blank">Reviews</a></strong>
                     <br>
                     <strong>Rating: </strong>'.$rating[$i].'<br>
                     <strong>Gender: </strong>'.$storeArrayGender[$i].'<br>
