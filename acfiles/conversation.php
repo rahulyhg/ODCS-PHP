@@ -96,6 +96,18 @@ if($user != "") {
         $atypep[] = $row40['actp'];
 
     }
+    $jqry1 = "SELECT * FROM `odcs`.`prescription` WHERE cid='$cid'";
+    $result101 = mysqli_query($dbhandle,$jqry1) or die("pconv errr");
+    $pmsg = Array();
+    $pno = Array();
+    $prep = Array();
+    $time = array();
+    while ($row10 = mysqli_fetch_array($result101, MYSQLI_ASSOC)) {
+       $pmsg[] = $row10['pre'];
+        $pno[] = $row10['pno'];
+        $prep[] = $row10['prid'];
+        $time[] = $row10['time'];
+    }
 }
 
 ?>
@@ -169,6 +181,23 @@ if($user != "") {
         <!--/row-->
     </div>
     <!--/container-->
+    <?php
+
+    for($i=0;$i<sizeof($pmsg);$i++) {
+        echo '
+        <div class="container" >
+    <div class="row" >
+    <div class="col-md-12" >
+    <div class="panel panel-default" >
+        <div class="panel-heading" >Prescription #'.$pno[$i].' Given on : '.$time[$i].'</div >
+        <div class="panel-body" >'.$pmsg[$i].'</div >
+        <div class="panel-footer" ><a href="http://localhost/ODCS/acfiles/print.php?pid='.$prep[$i].'">Print</a></div >
+    </div >
+    </div >
+    </div >
+    </div >';
+    }
+    ?>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -179,27 +208,37 @@ if($user != "") {
                     <div class="panel-body comments">
                         <form role="form" class="form-horizontal" method="post" action="conver.php" enctype="multipart/form-data">
                             <input class="form-control" name="did" id="inputSubject" value="<?php echo $did; ?>" type="hidden">
+                            <input class="form-control" name="pid" id="inputSubject" value="<?php echo $pid; ?>" type="hidden">
+
                             <input class="form-control" name="cid" id="inputSubject" value="<?php echo $cid; ?>" type="hidden">
-                        <textarea class="form-control" name="con" placeholder="Write your comment" rows="5"></textarea>
-                            <label class="control-label">Select File</label>
-                            <input id="input-1" type="file" name="file" class="file">
-                        <br>
+                        <textarea class="form-control" name="con" placeholder="Write your comment add <br> for line break" rows="5"></textarea>
+
 
                         <?php
                         if($atypec == "Patient"){
                             echo '
+                            <label class="control-label">Select File</label>
+                            <input id="input-1" type="file" name="file" class="file">
+                        <br>
                             <a class="small pull-left" href="http://localhost/ODCS">Home </a><br>
                             <a href="#" data-toggle="modal" data-target="#modalCompose" class="btn btn-danger btn-bg pull-left">Close this and review</a>\';
 
 
-
+                        <input type="hidden" value="Message" name="pres">
                         <input type="submit" class="btn btn-info pull-right" value="send">
 
                             </form>
                         <div class="clearfix"></div>
                         <hr>';
                         }elseif($atypec == "Doctor"){
-                            echo '<a class="small pull-left" href="#"></a>
+                            echo '
+  <label for="sel1">Select Type Of input:</label>
+  <select class="form-control" name="pres" id="sel1">
+    <option>Message</option>
+    <option>Presription</option>
+  </select>
+  <br>
+<a class="small pull-left" href="#"></a>
 <a class=" pull-left" href="http://localhost/ODCS">Home</a>
                         <input type="submit" class="btn btn-info pull-right" value="send">
                             </form>

@@ -1,3 +1,39 @@
+<?php
+require("dbsettings.php");
+$user = $_COOKIE["id"];
+$pid = $_GET['pid'];
+$result4 = mysqli_query($dbhandle, "SELECT * FROM `odcs`.`allusers` WHERE uid='".$pid."'") or die("<h2> pCoR4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+$row9 = mysqli_fetch_array($result4, MYSQLI_ASSOC);
+$pname = $row9['fname'];
+$qry = "SELECT * FROM `odcs`.`prescription` WHERE cid='$pid'";
+mysqli_select_db($dbhandle, $mysqlidb);
+$result = mysqli_query($dbhandle, $qry) or die("<h2>pr Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+$row = mysqli_fetch_assoc($result);
+//print_r($row);
+//$pr = $row['pre'];
+//$did =$row['did'];
+$jqry1 = "SELECT * FROM `odcs`.`conversations` WHERE pid='$pid'";
+$result101 = mysqli_query($dbhandle,$jqry1) or die("pconv errr". mysqli_error($dbhandle));
+$msg = Array();
+//$pno = Array();
+$sub = Array();
+$status = array();
+$cid = array();
+$did = array();
+$dname = array();
+while ($row10 = mysqli_fetch_array($result101, MYSQLI_ASSOC)) {
+    $msg[] = $row10['message'];
+    //$pno[] = $row10['pno'];
+    //$prep[] = $row10['prid'];
+    $sub[] = $row10['subject'];
+    $did[] = $row10['did'];
+    $cid[] = $row10['cid'];
+    $result40 = mysqli_query($dbhandle, "SELECT * FROM `odcs`.`allusers` WHERE uid='".$row10["did"]."'") or die("<h2> pCoR4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+    $row40 = mysqli_fetch_assoc($result40);
+    $dname[] = $row40['fname'];
+
+}
+?>
 <head>
     <title>Patient Record Page</title>
     <meta charset="utf-8">
@@ -8,99 +44,114 @@
 </head>
 <div class="container">
     <div class="page-header">
-        <h1 id="timeline">Timeline</h1>
+        <h1 id="timeline">Record Of <?php echo $pname;?></h1>
     </div>
     <ul class="timeline">
-        <li>
-            <div class="timeline-badge"><i class="glyphicon glyphicon-check"></i></div>
+    <?php
+     for($i=0;$i<sizeof($msg);$i++){
+         if($i%2 == 0) {
+             echo '<li>
+            <div class="timeline-badge danger"><i class=""></i></div>
             <div class="timeline-panel">
                 <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 11 hours ago via Twitter</small></p>
+                    <h4 class="timeline-title">' . $sub[$i] . '</h4>
+                    <p><small class="text-muted">Asked ' . $dname[$i] . ' </small></p>
                 </div>
                 <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
+                    <p>' . $msg[$i] . '.</p>
                 </div>
             </div>
         </li>
-        <li class="timeline-inverted">
-            <div class="timeline-badge warning"><i class="glyphicon glyphicon-credit-card"></i></div>
+        ';
+             $jqry1 = "SELECT * FROM `odcs`.`prescription` WHERE cid='" . $cid[$i] . "'";
+             $result101 = mysqli_query($dbhandle, $jqry1) or die("pconv errr" . mysqli_error($dbhandle));
+             $pmsg1 = Array();
+             $pno1 = Array();
+             $sub1 = Array();
+             $time1 = array();
+             $cid1 = array();
+             $did1 = array();
+             $dname1 = array();
+             while ($row10 = mysqli_fetch_array($result101, MYSQLI_ASSOC)) {
+                 $pmsg1[] = $row10['pre'];
+                 $pno1[] = $row10['pno'];
+                 $prep1[] = $row10['prid'];
+                 $time1[] = $row10['time'];
+                 $did1[] = $row10['did'];
+                 //$cid[] = $row10['cid'];
+                 $result40 = mysqli_query($dbhandle, "SELECT * FROM `odcs`.`allusers` WHERE uid='" . $row10["did"] . "'") or die("<h2> pCoR4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+                 $row40 = mysqli_fetch_assoc($result40);
+                 $dname1[] = $row40['fname'];
+
+             }
+             for ($j = 0; $j < sizeof($pmsg1); $j++) {
+                 echo '<li>
+
             <div class="timeline-panel">
                 <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
+                    <h4 class="timeline-title">Prescription #' . $pno1[$j] . '</h4>
+                    <p><small class="text-muted">By ' . $dname1[$j] . ' in ' . $time1[$j] . ' </small></p>
                 </div>
                 <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-                    <p>Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Interagi no mé, cursus quis, vehicula ac nisi. Aenean vel dui dui. Nullam leo erat, aliquet quis tempus a, posuere ut mi. Ut scelerisque neque et turpis posuere pulvinar pellentesque nibh ullamcorper. Pharetra in mattis molestie, volutpat elementum justo. Aenean ut ante turpis. Pellentesque laoreet mé vel lectus scelerisque interdum cursus velit auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac mauris lectus, non scelerisque augue. Aenean justo massa.</p>
+                    <p>' . $pmsg1[$j] . '.</p>
+                </div>
+            </div>
+        </li>';
+             }
+         }else{
+             echo '<li class="timeline-inverted">
+            <div class="timeline-badge warning"><i class=""></i></div>
+            <div class="timeline-panel">
+                <div class="timeline-heading">
+                    <h4 class="timeline-title">' . $sub[$i] . '</h4>
+                    <p><small class="text-muted">Asked ' . $dname[$i] . ' </small></p>
+                </div>
+                <div class="timeline-body">
+                    <p>' . $msg[$i] . '.</p>
                 </div>
             </div>
         </li>
-        <li>
-            <div class="timeline-badge danger"><i class="glyphicon glyphicon-credit-card"></i></div>
+        ';
+             $jqry1 = "SELECT * FROM `odcs`.`prescription` WHERE cid='" . $cid[$i] . "'";
+             $result101 = mysqli_query($dbhandle, $jqry1) or die("pconv errr" . mysqli_error($dbhandle));
+             $pmsg1 = Array();
+             $pno1 = Array();
+             $sub1 = Array();
+             $time1 = array();
+             $cid1 = array();
+             $did1 = array();
+             $dname1 = array();
+             while ($row10 = mysqli_fetch_array($result101, MYSQLI_ASSOC)) {
+                 $pmsg1[] = $row10['pre'];
+                 $pno1[] = $row10['pno'];
+                 $prep1[] = $row10['prid'];
+                 $time1[] = $row10['time'];
+                 $did1[] = $row10['did'];
+                 //$cid[] = $row10['cid'];
+                 $result40 = mysqli_query($dbhandle, "SELECT * FROM `odcs`.`allusers` WHERE uid='" . $row10["did"] . "'") or die("<h2> pCoR4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+                 $row40 = mysqli_fetch_assoc($result40);
+                 $dname1[] = $row40['fname'];
+
+             }
+             for ($j = 0; $j < sizeof($pmsg1); $j++) {
+                 echo '<li class="timeline-inverted">
+
             <div class="timeline-panel">
                 <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
+                    <h4 class="timeline-title">Prescription #' . $pno1[$j] . '</h4>
+                    <p><small class="text-muted">By ' . $dname1[$j] . ' in ' . $time1[$j] . ' </small></p>
                 </div>
                 <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
+                    <p>' . $pmsg1[$j] . '.</p>
                 </div>
             </div>
-        </li>
-        <li class="timeline-inverted">
-            <div class="timeline-panel">
-                <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-                </div>
-                <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="timeline-badge info"><i class="glyphicon glyphicon-floppy-disk"></i></div>
-            <div class="timeline-panel">
-                <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-                </div>
-                <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-                    <hr>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
-                            <i class="glyphicon glyphicon-cog"></i> <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="timeline-panel">
-                <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-                </div>
-                <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-                </div>
-            </div>
-        </li>
-        <li class="timeline-inverted">
-            <div class="timeline-badge success"><i class="glyphicon glyphicon-thumbs-up"></i></div>
-            <div class="timeline-panel">
-                <div class="timeline-heading">
-                    <h4 class="timeline-title">Mussum ipsum cacilds</h4>
-                </div>
-                <div class="timeline-body">
-                    <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-                </div>
-            </div>
-        </li>
+        </li>';
+             }
+         }
+
+     }
+    ?>
+
     </ul>
 </div>
 <style>
