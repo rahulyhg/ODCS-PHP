@@ -1,20 +1,21 @@
 <?php
-require("dbsettings.php");
-$user = $_COOKIE["id"];
+require("config.php");
+
 $did = $_GET['did'];
 if($user != "") {
-    $chkacqry = "SELECT * FROM `odcs`.`allusers` WHERE uid='$user'";
-    $balqry = "SELECT * FROM `odcs`.`bill` WHERE uid='$user'";
-    mysqli_select_db($dbhandle, $mysqlidb);
-    $result = mysqli_query($dbhandle, $chkacqry) or die("<h2>R1 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-    $count = mysqli_num_rows($result);
-    $row = mysqli_fetch_assoc($result);
-    $name = $row['fname'];
-    $usern = $row["username"];
-    $atype = $row["actp"];
-    $result2 = mysqli_query($dbhandle, $balqry) or die("<h2> R2 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-    $row2 = mysqli_fetch_assoc($result2);
-    $money = $row2['balance'];
+
+    $cuser = new transaction();
+    $usern = $cuser->currentuserdata()['fname'];
+    $atype = $cuser->currentuserdata()['actp'];
+    $user = $cuser->currentuserdata()['username'];
+    $uid = $cuser->currentuserdata()['uid'];
+    $money = $cuser->balance($uid);
+    if ($usern == NULL){
+        $flag =0;
+    }else{
+        $flag =1;
+    }
+
 
     /**
     $result = mysqli_query($dbhandle,"SELECT speciality FROM doctor");
@@ -105,6 +106,7 @@ if($user != "") {
     <div class="page-header">
         <h1 class="text-center"><?php echo $storeArrayName; ?></h1>
     </div>
+
     <img src="http://localhost/ODCS/acfiles/img/patient.png" alt="" class="center-block img-circle img-thumbnail img-responsive">
 
     <p class="lead text-center"><?php echo 'Details : '; ?>.</p>

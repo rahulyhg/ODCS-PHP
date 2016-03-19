@@ -1,94 +1,23 @@
 <?php
-require("dbsettings.php");
-$user = $_COOKIE["id"];
+require("config.php");
 if($user != "") {
-    $chkacqry = "SELECT * FROM `odcs`.`allusers` WHERE uid='$user'";
-    $balqry = "SELECT * FROM `odcs`.`bill` WHERE uid='$user'";
-    mysqli_select_db($dbhandle, $mysqlidb);
-    $result = mysqli_query($dbhandle, $chkacqry) or die("<h2>R1 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-    $count = mysqli_num_rows($result);
-    $row = mysqli_fetch_assoc($result);
-    $name = $row['fname'];
-    $usern = $row["username"];
-    $atype = $row["actp"];
-    $result2 = mysqli_query($dbhandle, $balqry) or die("<h2> R2 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-    $row2 = mysqli_fetch_assoc($result2);
-    $money = $row2['balance'];
-
-    /**
-    $result = mysqli_query($dbhandle,"SELECT speciality FROM doctor");
-    $storeArray = Array();
-    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-        $storeArray[] =  $row['speciality'];
-    }
-    //print_r($storeArray);
-
-    $sp = array_unique($storeArray);
-    sort($sp);
-    $sp_l = sizeof($sp);
-     * */
+    $conslt = new consult();
+    $row = $conslt->currentuserdata();
     $spe = $_POST['spl'];
+    $cid = $uid = md5(uniqid($spe, true));
     $sub = $_POST['sub'];
     $message = $_POST['msg'];
-    $cid = $uid = md5(uniqid($spe, true));
-    $addconverqry = "INSERT INTO `odcs`.`conversations` (`message`, `subject`, `cid`, `pid`, `did`, `status`, `adoc`) VALUES ('$message', '$sub', '$cid', '$user', 'Non', 'Asked', '0')";
-    $result5 = mysqli_query($dbhandle,$addconverqry) or die('R5 fuk');
-    $result3 = mysqli_query($dbhandle,"SELECT * FROM doctor WHERE speciality='$spe'") or die('R3 fuk');
-    $storeArrayUid = Array();
-    $storeArrayAddress = array();
-    $storeArrayGender = array();
-    $storeArrayH = array();
-    $storeArrayEx = array();
-    $storeArrayCo = array();
-    $storeArrayQ = array();
-    $storeArrayName = array();
-    $storeArrayEmail = array();
-    $avgrating = array();
-    while ($row3 = mysqli_fetch_array($result3, MYSQLI_ASSOC)) {
-        $storeArrayUid[] =  $row3['uid'];
-        $storeArrayAddress[] = $row3['address'];
-        $storeArrayGender[] = $row3['gender'];
-        $storeArrayH[] = $row3['hospital'];
-        $storeArrayEx[] = $row3['experiance'];
-        $storeArrayCo[] = $row3['contact'];
-        $storeArrayQ[] = $row3['Qualification'];
-        $result4 = mysqli_query($dbhandle, "SELECT * FROM `odcs`.`allusers` WHERE uid='".$row3["uid"]."'") or die("<h2> R4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-        $row4 = mysqli_fetch_assoc($result4);
-        $storeArrayName[] = $row4['fname'];
-        $storeArrayEmail[] = $row4['email'];
-        $result5 = mysqli_query($dbhandle, "SELECT AVG(rate) AS rate FROM rating WHERE did='".$row3["uid"]."'") or die("<h2> R4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-        $row5 = mysqli_fetch_assoc($result5);
-        if($row5['rate'] == NULL){
-            $rating[] = 'Not Rated Yet';
-        }else{
-            $rating[] = $row5['rate'];
-        }
-
-
-    }
-    /**
-    print_r($storeArrayUid);
-    echo "<br>";
-    print_r($storeArrayName);
-    echo "<br>";
-    print_r($storeArrayAddress);
-    echo "<br>";
-    print_r($storeArrayGender);
-    echo "<br>";
-    print_r($storeArrayH);
-    echo "<br>";
-    print_r($storeArrayEx);
-    echo "<br>";
-    print_r($storeArrayCo);
-    echo "<br>";
-    print_r($storeArrayQ);
-*/
-
-    if ($count == 1){
-        $flag =1;
-    }else{
-        $flag =0;
-    }
+    $conslt->addconsult($spe,$message,$cid,$sub);
+    $storeArrayUid = $conslt->displaydoctors($spe)[9];
+    $storeArrayAddress = $conslt->displaydoctors($spe)[0];
+    $storeArrayGender = $conslt->displaydoctors($spe)[1];
+    $storeArrayH = $conslt->displaydoctors($spe)[2];
+    $storeArrayEx = $conslt->displaydoctors($spe)[3];
+    $storeArrayCo = $conslt->displaydoctors($spe)[4];
+    $storeArrayQ = $conslt->displaydoctors($spe)[5];
+    $storeArrayName = $conslt->displaydoctors($spe)[6];
+    $storeArrayEmail = $conslt->displaydoctors($spe)[7];
+    $avgrating = $conslt->displaydoctors($spe)[8];
 }
 ?>
 
@@ -119,7 +48,7 @@ if($user != "") {
                     <h2>'.$storeArrayName[$i].'</h2>
                     <strong><a class="btn btn-warning" href="http://localhost/ODCS/acfiles/review.php?did='.$storeArrayUid[$i].'" target="_blank">Reviews</a></strong>
                     <br>
-                    <strong>Rating: </strong>'.$rating[$i].'<br>
+                    <strong>Rating: </strong>'.$avgrating[$i].'<br>
                     <strong>Gender: </strong>'.$storeArrayGender[$i].'<br>
                     <strong>Qualification: </strong>'.$storeArrayQ[$i].'<br>
                     <strong>Experience: </strong>'.$storeArrayEx[$i].'<br>

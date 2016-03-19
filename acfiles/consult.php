@@ -1,35 +1,11 @@
 
 <?php
-require("dbsettings.php");
-$user = $_COOKIE["id"];
+require("config.php");
 if($user != "") {
-    $chkacqry = "SELECT * FROM `odcs`.`allusers` WHERE uid='$user'";
-    $balqry = "SELECT * FROM `odcs`.`bill` WHERE uid='$user'";
-    mysqli_select_db($dbhandle, $mysqlidb);
-    $result = mysqli_query($dbhandle, $chkacqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-    $count = mysqli_num_rows($result);
-    $row = mysqli_fetch_assoc($result);
-    $name = $row['fname'];
-    $usern = $row["username"];
-    $atype = $row["actp"];
-    $result2 = mysqli_query($dbhandle, $balqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-    $row2 = mysqli_fetch_assoc($result2);
-    $money = $row2['balance'];
-    $result = mysqli_query($dbhandle,"SELECT speciality FROM doctor");
-    $storeArray = Array();
-    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-        $storeArray[] =  $row['speciality'];
-    }
-
-    //print_r($storeArray);
-    $sp = array_unique($storeArray);
+    $conslt = new consult();
+    $atype = $conslt->currentuserdata()['actp'];
+    $sp = array_unique($conslt->speciality());
     sort($sp);
-    $sp_l = sizeof($sp);
-    if ($count == 1){
-        $flag =1;
-    }else{
-        $flag =0;
-    }
 }
 ?>
 <head>
@@ -50,24 +26,12 @@ if($user != "") {
 
                 <?php
                 if($atype == "Patient"){
-                    $seletqry = "SELECT * FROM `conversations` WHERE pid='$user'";
-                    $result65 = mysqli_query($dbhandle, $seletqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-                    $subject = array();
-                    $dname = array();
-                    $did = array();
-                    $cid = array();
-                    $status = array();
-                    //$link = array();
-                    while ($row = mysqli_fetch_array($result65, MYSQLI_ASSOC)) {
-                        $subject[] = $row['subject'];
-                        $status[] = $row['status'];
-                        $did[] = $row['did'];
-                        $cid[] = $row['cid'];
-                        $result40 = mysqli_query($dbhandle, "SELECT * FROM `odcs`.`allusers` WHERE uid='".$row["did"]."'") or die("<h2> CoR4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-                        $row40 = mysqli_fetch_assoc($result40);
-                        $dname[] = $row40['fname'];
+                    $subject = $conslt->patientconsultdata()[1];
+                    $dname = $conslt->patientconsultdata()[4];
+                    $did = $conslt->patientconsultdata()[2];
+                    $cid = $conslt->patientconsultdata()[3];
+                    $status = $conslt->patientconsultdata()[5];
 
-                    }
                     echo '<thead>
                 <tr>
                     <th colspan="2">Question</th>
@@ -77,7 +41,7 @@ if($user != "") {
                 </tr>
                 </thead><tbody>';
                     for($i=0;$i<sizeof($subject);$i++){
-
+                    if($status[$i] == 'Asked'){}else
                         echo '   <tr>
                     <td><img src="img/question.png" class="img-thumbnail" alt="Item description" title="Some shop item">
                     </td>
@@ -95,25 +59,12 @@ if($user != "") {
 
 
                 }elseif($atype == 'Doctor'){
-                    $seletqry = "SELECT * FROM `conversations` WHERE did='$user'";
-                    $result65 = mysqli_query($dbhandle, $seletqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-                    $subject = array();
-                    $dname = array();
-                    $pid = array();
-                    $cid = array();
-                    $status = array();
-                    //$link = array();
-                    while ($row = mysqli_fetch_array($result65, MYSQLI_ASSOC)) {
-                        $subject[] = $row['subject'];
-                        $status[] = $row['status'];
-                        $pid[] = $row['pid'];
-                        $cid[] = $row['cid'];
-                        $result40 = mysqli_query($dbhandle, "SELECT * FROM `odcs`.`allusers` WHERE uid='".$row["pid"]."'") or die("<h2> CoR4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-                        $row40 = mysqli_fetch_assoc($result40);
-                        $dname[] = $row40['fname'];
-
-                    }
-                    echo '<thead>
+                    $subject = $conslt->doctorconsultdata()[1];
+                    $dname = $conslt->doctorconsultdata()[4];
+                    $pid = $conslt->doctorconsultdata()[2];
+                    $cid = $conslt->doctorconsultdata()[3];
+                    $status = $conslt->doctorconsultdata()[5];
+                   echo '<thead>
                 <tr>
                     <th colspan="2">Question</th>
                     <th>Patient Name</th>
@@ -122,7 +73,6 @@ if($user != "") {
                 </tr>
                 </thead><tbody>';
                     for($i=0;$i<sizeof($subject);$i++){
-
                         echo '   <tr>
                     <td><img src="img/question.png" class="img-thumbnail" alt="Item description" title="Some shop item">
                     </td>
@@ -161,7 +111,7 @@ if($user != "") {
                         <label class="col-sm-2" for="inputTo">Speiality</label>
                         <div class="col-sm-10"><select class="form-control" id="spl" name="spl">
                                 <?php
-                                for($i=0;$i < $sp_l ; $i++){
+                                for($i=0;$i < sizeof($sp) ; $i++){
                                     echo "<option>".$sp[$i]."</option>";
                                 }
                                 ?>

@@ -1,69 +1,39 @@
 <?php
-require("dbsettings.php");
-$user = $_COOKIE["id"];
+require("config.php");
 $cid = $_GET['cid'];
 $did = $_GET['did'];
+$chat = new conversation();
+$row = $chat->consultdata($cid);
+$pid = $row['pid'];
 if($user != "") {
-    $conqry = "SELECT * FROM `odcs`.`conversations` WHERE cid='$cid'";
-    mysqli_select_db($dbhandle, $mysqlidb);
-    $cresult = mysqli_query($dbhandle, $conqry) or die("<h2>C1 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-    $row = mysqli_fetch_assoc($cresult);
+
     $sub = $row['subject'];
     $message = $row['message'];
     $status = $row['status'];
-    $pid = $row['pid'];
     if($status == 'Asked') {
-        $addoqry = "UPDATE `odcs`.`conversations` SET `did` = '$did' WHERE `conversations`.`cid` = '$cid'";
-        $cresult2 = mysqli_query($dbhandle, $addoqry) or die("<h2>C2 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-        $balqry1 = "SELECT * FROM `odcs`.`bill` WHERE uid='$user'";
-        $balqry2 = "SELECT * FROM `odcs`.`bill` WHERE uid='$did'";
-        $cresult3 = mysqli_query($dbhandle, $balqry1) or die("<h2>C3 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-        $row3 = mysqli_fetch_assoc($cresult3);
-        $pmoney = $row3['balance'];
-        $cresult4 = mysqli_query($dbhandle, $balqry2) or die("<h2>C4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-        $row4 = mysqli_fetch_assoc($cresult4);
-        $dmoney = $row4['balance'];
+        $pmoney = $chat->balance($pid);
+        $dmoney = $chat->balance($did);
         if($pmoney == 0) {
             die("<h1>insufficient funds<h1> <a href='/ODCS/index.php'>return home to add funds</a> ");
 
         }else{
-            $pmoney -= 100;
-            $dmoney =$dmoney + 100;
-            $qry1 = "UPDATE `odcs`.`bill` SET `balance` = '$pmoney' WHERE `bill`.`uid` = '$user'";
-            $qry2 = "UPDATE `odcs`.`bill` SET `balance` = '$dmoney' WHERE `bill`.`uid` = '$did'";
-            $qry = "UPDATE `odcs`.`conversations` SET `status` = 'Active' WHERE `conversations`.`cid` = '$cid'";
-            $cresult5 = mysqli_query($dbhandle, $qry1) or die("<h2>C5 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-            $cresult6 = mysqli_query($dbhandle, $qry2) or die("<h2>C6 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-            $cresult6 = mysqli_query($dbhandle, $qry) or die("<h2>C7 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-
+           $chat->addmoneywallet($did,$pid,100);
+            $chat->removemoneywallet($pid,$did,100);
+            $chat->changestatus($did,$cid);
         }
 
     }
 }
 if($user != "") {
-    $chkacqry12 = "SELECT * FROM `odcs`.`allusers` WHERE uid='$user'";
-   // $balqry = "SELECT * FROM `odcs`.`patient` WHERE uid='$pid'";
-    mysqli_select_db($dbhandle, $mysqlidb);
-    $result12 = mysqli_query($dbhandle, $chkacqry12) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-    $count12 = mysqli_num_rows($result12);
-    $row12 = mysqli_fetch_assoc($result12);
-    $atypec = $row12["actp"];
-    $chkacqry = "SELECT * FROM `odcs`.`allusers` WHERE uid='$pid'";
-    $balqry = "SELECT * FROM `odcs`.`patient` WHERE uid='$pid'";
-    //mysqli_select_db($dbhandle, $mysqlidb);
-    $result = mysqli_query($dbhandle, $chkacqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-    $count = mysqli_num_rows($result);
-    $row = mysqli_fetch_assoc($result);
-    $name = $row['fname'];
-    $usern = $row["username"];
-    $atype = $row["actp"];
-    $result2 = mysqli_query($dbhandle, $balqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-    $row2 = mysqli_fetch_assoc($result2);
-    $weight = $row2['weight'];
-    $gender = $row2['gender'];
-    $height = $row2['height'];
-    $address = $row2['address'];
-    $dob = $row2['dob'];
+
+    $atypec = $chat->currentuserdata()['actp'];
+    $name = $chat->getdataid($pid)['fname'];
+    $atype = $chat->getdataid($pid)['actp'];
+    $weight = $chat->viewprofilepatient($pid)['weight'];
+    $gender = $chat->viewprofilepatient($pid)['gender'];
+    $height = $chat->viewprofilepatient($pid)['height'];
+    $address = $chat->viewprofilepatient($pid)['address'];
+    $dob = $chat->viewprofilepatient($pid)['dob'];
     $a = explode('/',$dob);
     $age =0;
     if ($a[1]<3){
@@ -76,38 +46,15 @@ if($user != "") {
         else $age = 2015-$a[2];
 
         }
-    if ($count == 1){
-        $flag =1;
-    }else{
-        $flag =0;
-    }
-    $jqry = "SELECT * FROM conversation WHERE cid='$cid'";
-    $result10 = mysqli_query($dbhandle,$jqry) or die("conv errr");
-    $msge = Array();
-    $cname = Array();
-    $noe = Array();
-    $atypep = array();
-    while ($row10 = mysqli_fetch_array($result10, MYSQLI_ASSOC)) {
-        $msge[] =  $row10['msg'];
-        $noe[] =  $row10['no'];
-        $result40 = mysqli_query($dbhandle, "SELECT * FROM `odcs`.`allusers` WHERE uid='".$row10["mid"]."'") or die("<h2> CoR4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-        $row40 = mysqli_fetch_assoc($result40);
-        $cname[] = $row40['fname'];
-        $atypep[] = $row40['actp'];
 
-    }
-    $jqry1 = "SELECT * FROM `odcs`.`prescription` WHERE cid='$cid'";
-    $result101 = mysqli_query($dbhandle,$jqry1) or die("pconv errr");
-    $pmsg = Array();
-    $pno = Array();
-    $prep = Array();
-    $time = array();
-    while ($row10 = mysqli_fetch_array($result101, MYSQLI_ASSOC)) {
-       $pmsg[] = $row10['pre'];
-        $pno[] = $row10['pno'];
-        $prep[] = $row10['prid'];
-        $time[] = $row10['time'];
-    }
+    $msge = $chat->getconvdata($cid)[0];
+    $cname = $chat->getconvdata($cid)[1];
+    $noe = $chat->getconvdata($cid)[2];
+    $atypep = $chat->getconvdata($cid)[3];
+    $pmsg = $chat->getpredata($cid)[0];
+    $pno = $chat->getpredata($cid)[1];
+    $prep = $chat->getpredata($cid)[2];
+    $time = $chat->getpredata($cid)[3];
 }
 
 ?>
@@ -129,7 +76,7 @@ if($user != "") {
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-xs-10">
-                <div class="well panel panel-default">
+                <div class="well panel panel-success">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-xs-12 col-sm-4 text-center">

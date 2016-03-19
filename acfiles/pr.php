@@ -1,38 +1,14 @@
 <?php
-require("dbsettings.php");
-$user = $_COOKIE["id"];
+require("config.php");
 $pid = $_GET['pid'];
-$result4 = mysqli_query($dbhandle, "SELECT * FROM `odcs`.`allusers` WHERE uid='".$pid."'") or die("<h2> pCoR4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-$row9 = mysqli_fetch_array($result4, MYSQLI_ASSOC);
-$pname = $row9['fname'];
-$qry = "SELECT * FROM `odcs`.`prescription` WHERE cid='$pid'";
-mysqli_select_db($dbhandle, $mysqlidb);
-$result = mysqli_query($dbhandle, $qry) or die("<h2>pr Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-$row = mysqli_fetch_assoc($result);
-//print_r($row);
-//$pr = $row['pre'];
-//$did =$row['did'];
-$jqry1 = "SELECT * FROM `odcs`.`conversations` WHERE pid='$pid'";
-$result101 = mysqli_query($dbhandle,$jqry1) or die("pconv errr". mysqli_error($dbhandle));
-$msg = Array();
-//$pno = Array();
-$sub = Array();
-$status = array();
-$cid = array();
-$did = array();
-$dname = array();
-while ($row10 = mysqli_fetch_array($result101, MYSQLI_ASSOC)) {
-    $msg[] = $row10['message'];
-    //$pno[] = $row10['pno'];
-    //$prep[] = $row10['prid'];
-    $sub[] = $row10['subject'];
-    $did[] = $row10['did'];
-    $cid[] = $row10['cid'];
-    $result40 = mysqli_query($dbhandle, "SELECT * FROM `odcs`.`allusers` WHERE uid='".$row10["did"]."'") or die("<h2> pCoR4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-    $row40 = mysqli_fetch_assoc($result40);
-    $dname[] = $row40['fname'];
-
-}
+$record = new conversation();
+$pname = $record->getdataid($pid)['fname'];
+$msg = $record->patientconsultdataid($pid)[0];
+$sub = $record->patientconsultdataid($pid)[1];
+$status = $record->patientconsultdataid($pid)[5];
+$cid = $record->patientconsultdataid($pid)[3];
+$did = $record->patientconsultdataid($pid)[2];
+$dname = $record->patientconsultdataid($pid)[4];
 ?>
 <head>
     <title>Patient Record Page</title>
@@ -84,27 +60,11 @@ while ($row10 = mysqli_fetch_array($result101, MYSQLI_ASSOC)) {
         </li>';
              //file query
 
-             $jqry1 = "SELECT * FROM `odcs`.`prescription` WHERE cid='" . $cid[$i] . "'";
-             $result101 = mysqli_query($dbhandle, $jqry1) or die("pconv errr" . mysqli_error($dbhandle));
-             $pmsg1 = Array();
-             $pno1 = Array();
-             $sub1 = Array();
-             $time1 = array();
-             $cid1 = array();
-             $did1 = array();
-             $dname1 = array();
-             while ($row10 = mysqli_fetch_array($result101, MYSQLI_ASSOC)) {
-                 $pmsg1[] = $row10['pre'];
-                 $pno1[] = $row10['pno'];
-                 $prep1[] = $row10['prid'];
-                 $time1[] = $row10['time'];
-                 $did1[] = $row10['did'];
-                 //$cid[] = $row10['cid'];
-                 $result40 = mysqli_query($dbhandle, "SELECT * FROM `odcs`.`allusers` WHERE uid='" . $row10["did"] . "'") or die("<h2> pCoR4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-                 $row40 = mysqli_fetch_assoc($result40);
-                 $dname1[] = $row40['fname'];
-
-             }
+             $pmsg1 = $chat->getpredata($cid)[0];
+             $pno1 = $chat->getpredata($cid)[1];
+             $time1 = $chat->getpredata($cid)[3];
+             $did1 = $chat->getpredata($cid)[4];
+             $dname1 = $chat->getpredata($cid)[5];
              for ($j = 0; $j < sizeof($pmsg1); $j++) {
                  echo '<li>
 
@@ -154,27 +114,11 @@ while ($row10 = mysqli_fetch_array($result101, MYSQLI_ASSOC)) {
         </li>';
              //file query
 
-             $jqry1 = "SELECT * FROM `odcs`.`prescription` WHERE cid='" . $cid[$i] . "'";
-             $result101 = mysqli_query($dbhandle, $jqry1) or die("pconv errr" . mysqli_error($dbhandle));
-             $pmsg1 = Array();
-             $pno1 = Array();
-             $sub1 = Array();
-             $time1 = array();
-             $cid1 = array();
-             $did1 = array();
-             $dname1 = array();
-             while ($row10 = mysqli_fetch_array($result101, MYSQLI_ASSOC)) {
-                 $pmsg1[] = $row10['pre'];
-                 $pno1[] = $row10['pno'];
-                 $prep1[] = $row10['prid'];
-                 $time1[] = $row10['time'];
-                 $did1[] = $row10['did'];
-                 //$cid[] = $row10['cid'];
-                 $result40 = mysqli_query($dbhandle, "SELECT * FROM `odcs`.`allusers` WHERE uid='" . $row10["did"] . "'") or die("<h2> pCoR4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-                 $row40 = mysqli_fetch_assoc($result40);
-                 $dname1[] = $row40['fname'];
-
-             }
+             $pmsg1 = $chat->getpredata($cid)[0];
+             $pno1 = $chat->getpredata($cid)[1];
+             $time1 = $chat->getpredata($cid)[3];
+             $did1 = $chat->getpredata($cid)[4];
+             $dname1 = $chat->getpredata($cid)[5];
 
              for ($j = 0; $j < sizeof($pmsg1); $j++) {
                  echo '<li class="timeline-inverted">

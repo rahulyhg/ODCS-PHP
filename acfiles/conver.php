@@ -1,14 +1,11 @@
 <?php
-require("dbsettings.php");
-mysqli_select_db($dbhandle, $mysqlidb);
-
+require("config.php");
 $cid = $_POST['cid'];
 $did = $_POST['did'];
 $pid =$_POST['pid'];
 $message = $_POST['con'];
-$user = $_COOKIE["id"];
 $type = $_POST['pres'];
-//print_r($_POST);
+$conv = new conversation();
 if($type == 'Message') {
     if (isset($_FILES['file'])) {
         $errors = array();
@@ -43,8 +40,7 @@ if($type == 'Message') {
         if (empty($errors) == true) {
             move_uploaded_file($file_tmp, "file/" . $file_name) or die("Please Upload Again");
             echo "<h1>You Have Successfully Updated Your Resume</h1><br>";
-            $fileqry = "INSERT INTO `odcs`.`file` (`fid`, `cid`, `time`) VALUES ('$file_name', '$cid', CURRENT_TIMESTAMP)";
-            $result2 = mysqli_query($dbhandle, $fileqry) or die("<h2>FL0 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+            $conv->addfile($file_name,$cid);
             $path = "http://localhost/ODCS/acfiles/file/" . $file_name;
             $msg = "<br><br><a href=" . $path . ">Download Attachment</a> ";
             $message = $message . $msg;
@@ -53,26 +49,9 @@ if($type == 'Message') {
         }
     }
 
-    $mnq = "SELECT MAX(no) AS no FROM conversation WHERE cid='$cid'";
-    $result2 = mysqli_query($dbhandle, $mnq) or die("<h2>CR0 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-    $row2 = mysqli_fetch_assoc($result2);
-    $n = $row2['no'];
-    $mn = $n + 1;
-    echo $cid . '---' . $user . '---' . $message;
-    $addc = "INSERT INTO `odcs`.`conversation` (`cid`, `mid`, `msg`, `no`) VALUES ('$cid', '$user', '$message', '$mn')";
-    mysqli_query($dbhandle, $addc) or die("<h2>CR1 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
+    $conv->addconversation($cid,$message);
 }elseif($type == 'Presription'){
-    $mnq = "SELECT MAX(pno) AS pno FROM prescription WHERE cid='$cid'";
-    $result2 = mysqli_query($dbhandle, $mnq) or die("<h2>pCR0 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-    $row2 = mysqli_fetch_assoc($result2);
-    $n = $row2['pno'];
-    $mn = $n + 1;
-    echo $cid . '---' . $user . '---' . $message;
-
-    $preid = md5(uniqid(rand(0,100000)));
-    $presqry = "INSERT INTO `odcs`.`prescription` (`prid`, `did`, `pid`, `pre`, `pno`, `time`, `cid`) VALUES ('$preid', '$did', '$pid', '$message', '$mn', CURRENT_TIMESTAMP, '$cid')";
-    mysqli_query($dbhandle, $presqry) or die("<h2>pCR1 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-
+    $conv->addprescription($did,$pid,$cid,$message);
 }
 $newURL  = "http://localhost/ODCS/acfiles/conversation.php?cid=".$cid."&did=".$did;
 //setcookie("id", $uid, time() + (86400 * 30), "/");

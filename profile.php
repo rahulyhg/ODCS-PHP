@@ -1,20 +1,18 @@
 <?php
-require("acfiles/dbsettings.php");
-$user = $_COOKIE["id"];
+require("acfiles/config.php");
 if($user != "") {
-    $chkacqry = "SELECT * FROM `odcs`.`allusers` WHERE uid='$user'";
-    mysqli_select_db($dbhandle, $mysqlidb);
-    $result = mysqli_query($dbhandle, $chkacqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-    $count = mysqli_num_rows($result);
-    $row = mysqli_fetch_assoc($result);
+    $puser = new profile();
+    $row = $puser->currentuserdata();
     $name = $row['fname'];
     $usern = $row["username"];
     $atype = $row["actp"];
-    if ($count == 1){
-        $flag =1;
-    }else{
-        $flag =0;
+    if($atype == 'Doctor') {
+        $profiledata = $puser->viewprofiledoctor($user);
+
+    }elseif($atype == 'Patient'){
+        $profiledata = $puser->viewprofilepatient($user);
     }
+   // print_r($profiledata);
 }
 ?>
 <!DOCTYPE html>

@@ -1,23 +1,17 @@
 <?php
-require("acfiles/dbsettings.php");
-$user = $_COOKIE["id"];
+include("acfiles/config.php");
 if($user != "") {
-    $chkacqry = "SELECT * FROM `odcs`.`allusers` WHERE uid='$user'";
-    $balqry = "SELECT * FROM `odcs`.`bill` WHERE uid='$user'";
-    mysqli_select_db($dbhandle, $mysqlidb);
-    $result = mysqli_query($dbhandle, $chkacqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-    $count = mysqli_num_rows($result);
-    $row = mysqli_fetch_assoc($result);
-    $name = $row['fname'];
-    $usern = $row["username"];
-    $atype = $row["actp"];
-    $result2 = mysqli_query($dbhandle, $balqry) or die("<h2> Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-    $row2 = mysqli_fetch_assoc($result2);
-    $money = $row2['balance'];
-    if ($count == 1){
-        $flag =1;
-    }else{
+
+    $cuser = new transaction();
+    $usern = $cuser->currentuserdata()['fname'];
+    $atype = $cuser->currentuserdata()['actp'];
+    $user = $cuser->currentuserdata()['username'];
+    $uid = $cuser->currentuserdata()['uid'];
+    $money = $cuser->balance($uid);
+    if ($usern == NULL){
         $flag =0;
+    }else{
+        $flag =1;
     }
 }
 ?>
@@ -157,127 +151,6 @@ if($user != "") {
             </div>
         </div>
     </header>
-    <section hidden>
-        <div class="cut cut-top"></div>
-        <div class="container">
-            <div class="row intro-tables">
-                <div class="col-md-4">
-                    <div class="intro-table intro-table-first">
-                        <h5 class="white heading">What we ffer</h5>
-                        <div class="owl-carousel owl-schedule bottom">
-                            <div class="item">
-                                <div class="schedule-row row">
-                                    <div class="col-xs-6">
-                                        <h5 class="regular white">ghjjghj</h5>
-                                    </div>
-                                    <div class="col-xs-6 text-right">
-                                        <h5 class="white">sada</h5>
-                                    </div>
-                                </div>
-                                <div class="schedule-row row">
-                                    <div class="col-xs-6">
-                                        <h5 class="regular white">sdad</h5>
-                                    </div>
-                                    <div class="col-xs-6 text-right">
-                                        <h5 class="white">sad</h5>
-                                    </div>
-                                </div>
-                                <div class="schedule-row row">
-                                    <div class="col-xs-6">
-                                        <h5 class="regular white">sadasd</h5>
-                                    </div>
-                                    <div class="col-xs-6 text-right">
-                                        <h5 class="white">sadasd</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="schedule-row row">
-                                    <div class="col-xs-6">
-                                        <h5 class="regular white">asdasd</h5>
-                                    </div>
-                                    <div class="col-xs-6 text-right">
-                                        <h5 class="white">asdas</h5>
-                                    </div>
-                                </div>
-                                <div class="schedule-row row">
-                                    <div class="col-xs-6">
-                                        <h5 class="regular white">asdasd</h5>
-                                    </div>
-                                    <div class="col-xs-6 text-right">
-                                        <h5 class="white">asdasd</h5>
-                                    </div>
-                                </div>
-                                <div class="schedule-row row">
-                                    <div class="col-xs-6">
-                                        <h5 class="regular white">asdasd</h5>
-                                    </div>
-                                    <div class="col-xs-6 text-right">
-                                        <h5 class="white">sadasd</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="schedule-row row">
-                                    <div class="col-xs-6">
-                                        <h5 class="regular white">sadas</h5>
-                                    </div>
-                                    <div class="col-xs-6 text-right">
-                                        <h5 class="white">sadasd</h5>
-                                    </div>
-                                </div>
-                                <div class="schedule-row row">
-                                    <div class="col-xs-6">
-                                        <h5 class="regular white">asdasd</h5>
-                                    </div>
-                                    <div class="col-xs-6 text-right">
-                                        <h5 class="white">asdasd</h5>
-                                    </div>
-                                </div>
-                                <div class="schedule-row row">
-                                    <div class="col-xs-6">
-                                        <h5 class="regular white">Cardio</h5>
-                                    </div>
-                                    <div class="col-xs-6 text-right">
-                                        <h5 class="white">8:30 - 10:00</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="intro-table intro-table-hover">
-                        <h5 class="white heading hide-hover">Premium Membership</h5>
-                        <div class="bottom">
-                            <h4 class="white heading small-heading no-margin regular">Register Today</h4>
-                            <h4 class="white heading small-pt"></h4>
-                            <a href="#" class="btn btn-white-fill expand">Register</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="intro-table intro-table-third">
-                        <h5 class="white heading">Happy Clients</h5>
-                        <div class="owl-testimonials bottom">
-                            <div class="item">
-                                <h4 class="white heading content">I couldn't be more happy with the results!</h4>
-                                <h5 class="white heading light author">Adam Jordan</h5>
-                            </div>
-                            <div class="item">
-                                <h4 class="white heading content">I can't believe how much better I feel!</h4>
-                                <h5 class="white heading light author">Greg Pardon</h5>
-                            </div>
-                            <div class="item">
-                                <h4 class="white heading content">Incredible transformation and I feel so healthy!</h4>
-                                <h5 class="white heading light author">Christina Goldman</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
     <section id="services" class="section section-padded">
         <div class="container">
             <div class="row text-center title">
@@ -374,77 +247,6 @@ if($user != "") {
             </div>
         </div>
     </section>
-    <section id="pricing" class="section" hidden>
-        <div class="container">
-            <div class="row title text-center">
-                <h2 class="margin-top white">Pricing</h2>
-                <h4 class="light white">Choose your favorite pricing plan and sign up today!</h4>
-            </div>
-            <div class="row no-margin">
-                <div class="col-md-7 no-padding col-md-offset-5 pricings text-center">
-                    <div class="pricing">
-                        <div class="box-main active" data-img="img/pricing1.jpg">
-                            <h4 class="white">Yoga Pilates</h4>
-                            <h4 class="white regular light">$850.00 <span class="small-font">/ year</span></h4>
-                            <a href="#" data-toggle="modal" data-target="#modal1" class="btn btn-white-fill">Sign Up Now</a>
-                            <i class="info-icon icon_question"></i>
-                        </div>
-                        <div class="box-second active">
-                            <ul class="white-list text-left">
-                                <li>One Personal Trainer</li>
-                                <li>Big gym space for training</li>
-                                <li>Free tools &amp; props</li>
-                                <li>Free locker</li>
-                                <li>Free before / after shower</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="pricing">
-                        <div class="box-main" data-img="img/pricing2.jpg">
-                            <h4 class="white">Cardio Training</h4>
-                            <h4 class="white regular light">$100.00 <span class="small-font">/ year</span></h4>
-                            <a href="#" data-toggle="modal" data-target="#modal1" class="btn btn-white-fill">Sign Up Now</a>
-                            <i class="info-icon icon_question"></i>
-                        </div>
-                        <div class="box-second">
-                            <ul class="white-list text-left">
-                                <li>One Personal Trainer</li>
-                                <li>Big gym space for training</li>
-                                <li>Free tools &amp; props</li>
-                                <li>Free locker</li>
-                                <li>Free before / after shower</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="section section-padded blue-bg" hidden>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-                    <div class="owl-twitter owl-carousel">
-                        <div class="item text-center">
-                            <i class="icon fa fa-twitter"></i>
-                            <h4 class="white light">To enjoy the glow of good health, you must exercise.</h4>
-                            <h4 class="light-white light">#health #training #exercise</h4>
-                        </div>
-                        <div class="item text-center">
-                            <i class="icon fa fa-twitter"></i>
-                            <h4 class="white light">To enjoy the glow of good health, you must exercise.</h4>
-                            <h4 class="light-white light">#health #training #exercise</h4>
-                        </div>
-                        <div class="item text-center">
-                            <i class="icon fa fa-twitter"></i>
-                            <h4 class="white light">To enjoy the glow of good health, you must exercise.</h4>
-                            <h4 class="light-white light">#health #training #exercise</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
     <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content modal-popup">
@@ -517,42 +319,6 @@ if($user != "") {
 
         </div>
     </div>
-    <footer hidden>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6 text-center-mobile">
-                    <h3 class="white">Reserve a Free Trial Class!</h3>
-                    <h5 class="light regular light-white">Shape your body and improve your health.</h5>
-                    <a href="#" class="btn btn-blue ripple trial-button">Start Free Trial</a>
-                </div>
-                <div class="col-sm-6 text-center-mobile">
-                    <h3 class="white">Opening Hours <span class="open-blink"></span></h3>
-                    <div class="row opening-hours">
-                        <div class="col-sm-6 text-center-mobile">
-                            <h5 class="light-white light">Mon - Fri</h5>
-                            <h3 class="regular white">9:00 - 22:00</h3>
-                        </div>
-                        <div class="col-sm-6 text-center-mobile">
-                            <h5 class="light-white light">Sat - Sun</h5>
-                            <h3 class="regular white">10:00 - 18:00</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row bottom-footer text-center-mobile">
-                <div class="col-sm-8">
-
-                </div>
-                <div class="col-sm-4 text-right text-center-mobile">
-                    <ul class="social-footer">
-                        <li><a href="http://www.facebook.com/pages/Codrops/159107397912"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="http://www.twitter.com/codrops"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="https://plus.google.com/101095823814290637419"><i class="fa fa-google-plus"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
     <!-- Holder for mobile navigation -->
     <div class="mobile-nav">
         <ul>
