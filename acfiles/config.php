@@ -270,6 +270,22 @@ class consult extends profile{
         $status = returncolumn($qry, 'status', 'Error Getting Status');
         return array($msg,$sub,$did,$hid,$name,$status);
     }
+    public function adminconsultdata(){
+        global $webhost;
+        $qry = "SELECT * FROM `conversations`";
+        $arr['subject'] = returncolumn($qry, 'subject', 'Error Getting Subject');
+        $arr['did'] = returncolumn($qry, 'did', 'Error Getting Doctor');
+        $arr['cid'] = returncolumn($qry, 'cid', 'Error Getting Doctor');
+        $arr['pid'] = returncolumn($qry, 'pid', 'Error Getting Doctor');
+        $arr['dname']=$this->getname($arr['did']);
+        $arr['pname']=$this->getname($arr['pid']);
+        $arr['links'] = array();
+        for($i=0;$i<sizeof($arr['subject']);$i++){
+            $arr['links'][$i] = '<a target="_blank" href = "'.$webhost.'acfiles/conversation.php?cid='.$arr['cid'][$i].'&did='.$arr['did'][$i].'">Link</a>';
+        }
+        $arr['status'] = returncolumn($qry, 'status', 'Error Getting Status');
+        return $arr;
+    }
     public function patientconsultdataid($cid){
         $qry = "SELECT * FROM `conversations` WHERE pid='$cid'";
         $msg = returncolumn($qry, 'message', 'Error Getting Message');
@@ -343,6 +359,25 @@ class transaction extends consult{
         }
         $arr['name'] = $this->getname(returncolumn($qry,'pid','Error Getting PID'));
        return $arr;
+    }
+    public function sendtransationadmin(){
+        $qry = "SELECT * FROM `bill`";
+        $arr['tid'] = returncolumn($qry,'tid','Error Getting TID');
+        $amount = returncolumn($qry,'balance','Error Getting Balance');
+        $arr['amount'] = array();
+        $arr['type'] = array();
+        for($i=0;$i<sizeof($amount);$i++){
+            if($amount[$i]<0){
+                $arr['amount'][$i] = -1*$amount[$i];
+                $arr['type'][$i] = 'Withdrawn';
+            }else{
+                $arr['type'][$i] = 'Added';
+                $arr['amount'][$i] = $amount[$i];
+            }
+        }
+        $arr['user'] = $this->getname(returncolumn($qry,'gid','Error Getting GID'));
+        $arr['name'] = $this->getname(returncolumn($qry,'pid','Error Getting PID'));
+        return $arr;
     }
 }
 class conversation extends transaction{

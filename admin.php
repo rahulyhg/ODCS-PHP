@@ -1,64 +1,146 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>AdminPanel - ODCS'16</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body class="blurBg-false" style="background-color:#EBEBEB">
-
-
-
-<!-- Start form-->
-<link rel="stylesheet" href="signin_files/formoid1/formoid-metro-cyan.css" type="text/css"  />
-<script type="text/javascript" src="signin_files/formoid1/jquery.min.js"></script>
 <?php
-if ($_POST['input'] == 'admin' && $_POST['password'] == 'admin') {
-    require("acfiles/dbsettings.php");
-    $db_host  = $mysqlihost;
-    $db_user  = $mysqliuser;
-    $db_pwd   = $mysqlipass;
-    //$resume   = $_POST['resume'];
-    $tabl     = $_POST['workshop'];
-    $database = $mysqlidb;
-    //$table    = 'patient';
-    $xl = $tabl;
-
-    $query = 'SELECT * FROM '.$tabl ;
-    echo '<form class="formoid-metro-cyan" style="background-color:#FFFFFF;font-size:14px;font-family:\'Open Sans\',\'Helvetica Neue\',\'Helvetica\',Arial,Verdana,sans-serif;color:#666666;max-width:100%;min-width:150px" method="post" action="xls.php?download=' . $resume . $tabl . '"><div class="title"><h2>AdminPanel</h2></div>';
-    if (!$dbhandle)
-        die("Can't connect to database");
-    if (!mysqli_select_db($dbhandle, $mysqlidb))
-        die("Can't select database");
-    $result = mysqli_query($dbhandle,$query);
-    if (!$result) {
-        die("Query to show fields from table failed".mysqli_error($dbhandle));
-    }
-    $fields_num = mysqli_num_fields($result);
-    echo "<h2> </h2>";
-    echo "<table class='flat-table'><tr>";
-    for ($i = 0; $i < $fields_num; $i++) {
-        $field = mysqli_fetch_field($result);
-        echo "<th>{$field->name}</th>";
-    }
-    echo "</tr>\n";
-    while ($row = mysqli_fetch_row($result)) {
-        echo "<tr>";
-        foreach ($row as $cell)
-            echo "<td>$cell</td>";
-        echo "</tr>\n";
-    }
-    echo "<div class=\"submit\"><input type=\"submit\" value=\"Download xls\"/>";
-    mysqli_free_result($result);
-    echo "</table>";
-} else {
-    echo "<h1> Loginfail </h1>";
-}
+require('acfiles/config.php');
+$admin = new conversation();
+$transaction = $admin->sendtransationadmin();
+$flag =1;
+$adminmmoney = $admin->balance('admin');
 ?>
-<div class="submit"></form><p class="frmd"><a href="http://formoid.com/v29.php">jquery form</a> Formoid.com 2.9</p><script type="text/javascript" src="signin_files/formoid1/formoid-metro-cyan.js"></script>
-    <!-- Stop form-->
+<head>
+    <title>Admin Panel ODCS'16</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery-1.12.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/w3.css">
+    <script type="text/javascript">
+        $(function() {
+            $('#sel1').change(function(){
+                $('.tabl').hide();
+                $('#' + $(this).val()).show();
+            });
+        });
+    </script>
+</head>
 
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                Current Profit : <?php echo $adminmmoney; ?>Rs
+            </a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown " hidden>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        Admin
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu" hidden>
 
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="container-fluid main-container">
+    <div class="col-md-12 content">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Dashboard
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="sel1">Select Table:</label>
+                    <select class="form-control" id="sel1">
+                        <option>Select Option</option>
+                        <option value="Doctor" >1. Doctor</option>
+                        <option value="Patient">2. Patient</option>
+                        <option value="Consult">3. Consult Data</option>
+                        <option value="Transactions">4. Transcations</option>
+                    </select>
+                </div>
+                <div id="Doctor" class="tabl" hidden>
+                Table for doctor
+                </div>
+                <div id="Patient" class="tabl" hidden>
+                   Table for patient
+                </div>
+                <div id="Consult" class="tabl" hidden>
+                    <table class="w3-table w3-striped w3-bordered w3-card-4">
+                        <thead>
+                        <tr class="w3-blue">
+                            <th>User</th>
+                            <th>Subject</th>
+                            <th>Doctor</th>
+                            <th>Status</th>
+                            <th>Link</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <?php
 
-</body>
-</html>
+                        for ($i = 0; $i < sizeof($admin->adminconsultdata()['subject']); $i++){
+                            echo '<tr>
+                        <td>'.$admin->adminconsultdata()['pname'][$i].'</td>
+                        <td>' . $admin->adminconsultdata()['subject'][$i] . '</td>
+                        <td>' . $admin->adminconsultdata()['dname'][$i] . '</td>
+                        <td>' . $admin->adminconsultdata()['status'][$i] . '</td>
+                        <td>' . $admin->adminconsultdata()['links'][$i] . '</td>
+
+                    </tr>';
+                        }
+                        ?>
+                    </table>
+                </div>
+                <div id="Transactions" class="tabl" hidden>
+                    <table class="w3-table w3-striped w3-bordered w3-card-4">
+                        <thead>
+                        <tr class="w3-blue">
+                            <th>User</th>
+                            <th>Transaction ID</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>By</th>
+                        </tr>
+                        </thead>
+                    <?php
+                    if($flag !=0 ) {
+                        $tid = $transaction['tid'];
+                        $typ = $transaction['type'];
+                        $amnt = $transaction['amount'];
+                        $user = $transaction['user'];
+                        $name = $transaction['name'];
+                        for ($i = 0; $i < sizeof($tid); $i++) {
+                            echo '<tr>
+                        <td>'.$user[$i].'</td>
+                        <td>' . $tid[$i] . '</td>
+                        <td>' . $typ[$i] . '</td>
+                        <td>' . $amnt[$i] . '</td>
+                        <td>' . $name[$i] . '</td>
+
+                    </tr>';
+                        }
+                    }
+                    ?>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="pull-left footer">
+        <p class="col-md-12">
+        <hr class="divider">
+        Copyright &COPY; 2016 <a href="#">ODCS</a>
+        </p>
+    </footer>
+</div>
