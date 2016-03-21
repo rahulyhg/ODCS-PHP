@@ -14,11 +14,14 @@ if($user != "") {
         $pmoney = $chat->balance($pid);
         $dmoney = $chat->balance($did);
         if($pmoney == 0) {
-            die("<h1>insufficient funds<h1> <a href='/ODCS/index.php'>return home to add funds</a> ");
-
+            error('Insufficient Funds','You Have Insufficient Funds <a href="'.$webhost.'">Return Home To Add More</a>');
         }else{
-           $chat->addmoneywallet($did,$pid,100);
-            $chat->removemoneywallet($pid,$did,100);
+            $amount = 100;
+            $amp2 = $amount/10;
+            $amp1 = $amount - $amp2;
+            $chat->removemoneywallet($pid,$did,$amount);
+            $chat->addmoneywallet($did,$pid,$amp1);
+            $chat->addmoneywallet('Admin',$pid,$amp2);
             $chat->changestatus($did,$cid);
         }
 
@@ -80,7 +83,7 @@ if($user != "") {
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-xs-12 col-sm-4 text-center">
-                                <img src="http://localhost/ODCS/acfiles/img/patient.png" alt="" class="center-block img-circle img-thumbnail img-responsive">
+                                <img src="<?php echo $webhost; ?>acfiles/img/patient.png" alt="" class="center-block img-circle img-thumbnail img-responsive">
                                 <ul class="list-inline ratings text-center" title="Ratings">
                                     <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>
                                     <li><a href="#"><span class="fa fa-star fa-lg"></span></a></li>
@@ -91,7 +94,7 @@ if($user != "") {
                             </div>
                             <!--/col-->
                             <div class="col-xs-12 col-sm-8">
-                                <h2><a href="http://localhost/ODCS/acfiles/pr.php?pid=<?php echo $pid; ?>" target="_blank"><?php echo $name; ?></a></h2>
+                                <h2><a href="<?php echo $webhost; ?>acfiles/pr.php?pid=<?php echo $pid; ?>" target="_blank"><?php echo $name; ?></a></h2>
                                 <p><strong>Gender: </strong><?php echo $gender; ?>. </p>
                                 <p><strong>Address: </strong> <?php echo $address; ?> </p>
 
@@ -138,7 +141,7 @@ if($user != "") {
     <div class="panel panel-default" >
         <div class="panel-heading" >Prescription #'.$pno[$i].' Given on : '.$time[$i].'</div >
         <div class="panel-body" >'.$pmsg[$i].'</div >
-        <div class="panel-footer" ><a href="http://localhost/ODCS/acfiles/print.php?pid='.$prep[$i].'" target="_blank">Print</a></div >
+        <div class="panel-footer" ><a href="'.$webhost.'acfiles/print.php?pid='.$prep[$i].'" target="_blank">Print</a></div >
     </div >
     </div >
     </div >
@@ -167,7 +170,7 @@ if($user != "") {
                             <label class="control-label">Select File</label>
                             <input id="input-1" type="file" name="file" class="file">
                         <br>
-                            <a class="small pull-left" href="http://localhost/ODCS">Home </a><br>
+                            <a class="small pull-left" href="'.$webhost.'">Home </a><br>
                             <a href="#" data-toggle="modal" data-target="#modalCompose" class="btn btn-danger btn-bg pull-left">Close this and review</a>\';
 
 
@@ -186,7 +189,7 @@ if($user != "") {
   </select>
   <br>
 <a class="small pull-left" href="#"></a>
-<a class=" pull-left" href="http://localhost/ODCS">Home</a>
+<a class=" pull-left" href="'.$webhost.'">Home</a>
                         <input type="submit" class="btn btn-info pull-right" value="send">
                             </form>
                         <div class="clearfix"></div>
@@ -198,7 +201,7 @@ if($user != "") {
                             <li class="media">
                                 <div class="comment">
                                     <a href="#" class="pull-left">
-                                        <img src="http://localhost/ODCS/acfiles/img/rsz_patient.png" alt="" class="img-circle">
+                                        <img src="'.$webhost.'acfiles/img/rsz_patient.png" alt="" class="img-circle">
                                     </a>
                                     <div class="media-body">
                                         <strong class="text-success">' . $cname[$i] . '</strong>
@@ -215,7 +218,7 @@ if($user != "") {
                             <li class="media">
                                 <div class="comment">
                                     <a href="#" class="pull-left">
-                                        <img src="http://localhost/ODCS/acfiles/img/rsz_doctor.png" alt="" class="img-circle">
+                                        <img src="'.$webhost.'acfiles/img/rsz_doctor.png" alt="" class="img-circle">
                                     </a>
                                     <div class="media-body">
                                         <strong class="text-success">Dr. ' . $cname[$i] . '</strong>

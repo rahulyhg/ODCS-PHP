@@ -10,6 +10,23 @@
  */
 require('dbsettings.php');
 $user = $_COOKIE["id"];
+function error($msg,$description){
+    die('<head>
+    <title>ERROR Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery-1.12.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+</head>
+<div class="container">
+    <div class="page-header">
+        <h1 class="text-center">'.$msg.'</h1>
+    </div>
+
+    <p class="lead text-center">' .$description.'</p>');
+}
 function runqry($qry,$errormsg,$bool){
     global $dbhandle;
     if($bool == true){
@@ -83,7 +100,7 @@ class allusers{
      }
     public function insertuser($fname,$email,$username,$password,$atype){
         $uid = $uid = md5(uniqid($username, true));
-        $qry = "INSERT INTO `odcs`.`allusers` (`fname`, `email`, `username`, `pass`, `actp`, `uid`) VALUES ('\".$fname.\"', '\".$email.\"', '\".$username.\"', '\".$password.\"', '\".$atype.\"', '\".$uid.\"')";
+        $qry = "INSERT INTO `odcs`.`allusers` (`fname`, `email`, `username`, `pass`, `actp`, `uid`) VALUES ('$fname', '$email', '$username', '$password', '$atype', '$uid')";
         runqry($qry,'Error Adding User '.$username,false);
     }
     public function chkuser($user,$pass){
@@ -301,9 +318,31 @@ class transaction extends consult{
     }
     public function removemoneywallet($did,$pid,$amount){
         $tid = md5(uniqid(rand(0,190909090),true));
-        $amount *= -1;
-        $qry = "INSERT INTO `odcs`.`bill` (`tid`, `gid`, `balance`, `pid`) VALUES ('$tid', '$did', '$amount', '$pid')";
-        runqry($qry,'Cant Remove Money From Wallet',false);
+        if(($this->balance($did)-$amount)<0){
+            error('Remove Balance Failed','remove balance from '.$did.' failed');
+        }else {
+            $amount *= -1;
+            $qry = "INSERT INTO `odcs`.`bill` (`tid`, `gid`, `balance`, `pid`) VALUES ('$tid', '$did', '$amount', '$pid')";
+            runqry($qry, 'Cant Remove Money From Wallet', false);
+        }
+    }
+    public function sendtransation($uid){
+        $qry = "SELECT * FROM `bill` WHERE gid='$uid'";
+        $arr['tid'] = returncolumn($qry,'tid','Error Getting TID');
+        $amount = returncolumn($qry,'balance','Error Getting Balance');
+        $arr['amount'] = array();
+        $arr['type'] = array();
+        for($i=0;$i<sizeof($amount);$i++){
+            if($amount[$i]<0){
+                $arr['amount'][$i] = -1*$amount[$i];
+                $arr['type'][$i] = 'Withdrawn';
+            }else{
+                $arr['type'][$i] = 'Added';
+                $arr['amount'][$i] = $amount[$i];
+            }
+        }
+        $arr['name'] = $this->getname(returncolumn($qry,'pid','Error Getting PID'));
+       return $arr;
     }
 }
 class conversation extends transaction{
@@ -350,6 +389,10 @@ class conversation extends transaction{
         $drn = $this->getname($did);
         return array($pre,$pno,$pid,$tim,$did,$drn);
 
+    }
+    public function getpre($pid){
+        $qry = "SELECT * FROM `odcs`.`prescription` WHERE prid='$pid'";
+        return runqry($qry,'Get Prid Failed',true);
     }
 }
 //$b = new consult();

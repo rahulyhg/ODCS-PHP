@@ -48,12 +48,12 @@ if($user != "") {
                     <td>'.$subject[$i].'</td>
                     <td>Dr. '.$dname[$i].'</td>
                     <td>'.$status[$i].'</td>
-                    <td><a href="http://localhost/ODCS/acfiles/conversation.php?cid='.$cid[$i].'&did='.$did[$i].'">View this</a></td>
+                    <td><a href="'.$webhost.'acfiles/conversation.php?cid='.$cid[$i].'&did='.$did[$i].'">View this</a></td>
                 </tr>';
                     }
                     echo'
                 </tbody>
-            </table><a class="small pull-left" href="http://localhost/ODCS">back</a>
+            </table><a class="small pull-left" href="'.$webhost.'">back</a>
             <a href="#" data-toggle="modal" data-target="#modalCompose" class="btn btn-primary btn-bg pull-right">Add Consult</a>';
 
 
@@ -79,12 +79,12 @@ if($user != "") {
                     <td>'.$subject[$i].'</td>
                     <td>'.$dname[$i].'</td>
                     <td>'.$status[$i].'</td>
-                    <td><a href="http://localhost/ODCS/acfiles/conversation.php?cid='.$cid[$i].'&did='.$user.'">View this</a></td>
+                    <td><a href="'.$webhost.'acfiles/conversation.php?cid='.$cid[$i].'&did='.$user.'">View this</a></td>
                 </tr>';
                     }
                     echo'
                 </tbody>
-            </table><a class="small pull-left" href="http://localhost/ODCS">Back</a>
+            </table><a class="small pull-left" href="'.$webhost.'">Back</a>
            ';
 
 
@@ -108,7 +108,7 @@ if($user != "") {
             <div class="modal-body">
                 <form role="form" class="form-horizontal" method="post" action="doctorselect.php">
                     <div class="form-group">
-                        <label class="col-sm-2" for="inputTo">Speiality</label>
+                        <label class="col-sm-2" for="inputTo">Speciality</label>
                         <div class="col-sm-10"><select class="form-control" id="spl" name="spl">
                                 <?php
                                 for($i=0;$i < sizeof($sp) ; $i++){

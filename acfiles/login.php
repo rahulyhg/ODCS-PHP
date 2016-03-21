@@ -12,7 +12,7 @@ $luser = new allusers();
 $count = $luser->chkuser($user,$pass);
 if ($count != NULL){
     $uid = $count['uid'];
-    $newURL  = "http://localhost/ODCS/";
+    $newURL  = $webhost;
     setcookie("id", $uid, time() + (86400 * 30), "/");
     header('Location: '.$newURL);
 }else{

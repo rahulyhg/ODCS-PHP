@@ -3,7 +3,7 @@ require("config.php");
 $cid = $_POST['cid'];
 $did = $_POST['did'];
 $pid =$_POST['pid'];
-$message = $_POST['con'];
+$message = nl2br($_POST['con']);
 $type = $_POST['pres'];
 $conv = new conversation();
 if($type == 'Message') {
@@ -53,7 +53,7 @@ if($type == 'Message') {
 }elseif($type == 'Presription'){
     $conv->addprescription($did,$pid,$cid,$message);
 }
-$newURL  = "http://localhost/ODCS/acfiles/conversation.php?cid=".$cid."&did=".$did;
+$newURL  = $webhost."acfiles/conversation.php?cid=".$cid."&did=".$did;
 //setcookie("id", $uid, time() + (86400 * 30), "/");
 echo $message;
 header('Location: '.$newURL);

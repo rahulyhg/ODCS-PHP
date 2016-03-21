@@ -9,7 +9,7 @@ $ruser = new transaction();
 $ruser->insertuser($fname,$email,$username,$passwrd,$actype);
 $uid = $ruser->getuid($username);
 $ruser->addwallet($uid);
-$newURL  = "http://localhost/ODCS/profile.php";
+$newURL  = $webhost."profile.php";
 setcookie("id", $uid, time() + (86400 * 30), "/");
 header('Location: '.$newURL);
 ?>

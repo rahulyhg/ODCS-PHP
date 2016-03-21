@@ -15,39 +15,7 @@ if($user != "") {
     }else{
         $flag =1;
     }
-
-
-    /**
-    $result = mysqli_query($dbhandle,"SELECT speciality FROM doctor");
-    $storeArray = Array();
-    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-    $storeArray[] =  $row['speciality'];
-    }
-    //print_r($storeArray);
-
-    $sp = array_unique($storeArray);
-    sort($sp);
-    $sp_l = sizeof($sp);
-     * */
-    /*
-    $spe = $_POST['spl'];
-    $sub = $_POST['sub'];
-    $message = $_POST['msg'];
-    $cid = $uid = md5(uniqid($spe, true));
-    $addconverqry = "INSERT INTO `odcs`.`conversations` (`message`, `subject`, `cid`, `pid`, `did`, `status`, `adoc`) VALUES ('$message', '$sub', '$cid', '$user', 'Non', 'Asked', '0')";
-    $result5 = mysqli_query($dbhandle,$addconverqry) or die('R5 fuk');*/
-    $result3 = mysqli_query($dbhandle,"SELECT * FROM doctor WHERE uid='$did'") or die('R3 fuk');
-    //$storeArrayUid = Array();
-    //$storeArrayAddress = array();
-    //$storeArrayGender = array();
-    //$storeArrayH = array();
-    //$storeArrayEx = array();
-    //$storeArrayCo = array();
-    //$storeArrayQ = array();
-    //$storeArrayName = array();
-    //$storeArrayEmail = array();
-    //$avgrating = array();
-   $row3 = mysqli_fetch_array($result3, MYSQLI_ASSOC);
+   $row3 = $cuser->viewprofiledoctor($did);
         $storeArrayUid =  $row3['uid'];
         $storeArrayAddress = $row3['address'];
         $storeArrayGender = $row3['gender'];
@@ -55,43 +23,13 @@ if($user != "") {
         $storeArrayEx = $row3['experiance'];
         $storeArrayCo = $row3['contact'];
         $storeArrayQ = $row3['Qualification'];
-        $result4 = mysqli_query($dbhandle, "SELECT * FROM `odcs`.`allusers` WHERE uid='".$row3["uid"]."'") or die("<h2> R4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-        $row4 = mysqli_fetch_assoc($result4);
-        $storeArrayName = $row4['fname'];
-        $storeArrayEmail = $row4['email'];
-        $result5 = mysqli_query($dbhandle, "SELECT AVG(rate) AS rate FROM rating WHERE did='".$row3["uid"]."'") or die("<h2> R4 Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-        $row5 = mysqli_fetch_assoc($result5);
-        if($row5['rate'] == NULL){
-            $rating = 'Not Rated Yet';
-        }else{
-            $rating = $row5['rate'];
-        }
+        $storeArrayS = $cuser->specialitiesdoctor($did);
+        $speciality = implode(',',$storeArrayS);
+        $storeArrayName = $cuser->getdataid($did)['fname'];
+        $storeArrayEmail = $cuser->getdataid($did)['email'];
+        $rating = $cuser->crating($did);
 
 
-   // }
-/*
-    print_r($storeArrayUid);
-    echo "<br>";
-    print_r($storeArrayName);
-    echo "<br>";
-    print_r($storeArrayAddress);
-    echo "<br>";
-    print_r($storeArrayGender);
-    echo "<br>";
-    print_r($storeArrayH);
-    echo "<br>";
-    print_r($storeArrayEx);
-    echo "<br>";
-    print_r($storeArrayCo);
-    echo "<br>";
-    print_r($storeArrayQ);
-*/
-
-    if ($count == 1){
-        $flag =1;
-    }else{
-        $flag =0;
-    }
 }
 ?>
 <head>
@@ -107,7 +45,7 @@ if($user != "") {
         <h1 class="text-center"><?php echo $storeArrayName; ?></h1>
     </div>
 
-    <img src="http://localhost/ODCS/acfiles/img/patient.png" alt="" class="center-block img-circle img-thumbnail img-responsive">
+    <img src="<?php echo $webhost; ?>acfiles/img/patient.png" alt="" class="center-block img-circle img-thumbnail img-responsive">
 
     <p class="lead text-center"><?php echo 'Details : '; ?>.</p>
     <?php
@@ -120,6 +58,9 @@ if($user != "") {
     <strong>Experience: </strong>'.$storeArrayEx.'<br>
     <strong>Contact: </strong>'.$storeArrayCo.'<br>
     <strong>Email: </strong>'.$storeArrayEmail.'<br>
+    <br><strong>Speciality: </strong><br>
+    <p>'.$speciality.'
+    </p>
     <br><strong>Address: </strong><br>
     <p>'.$storeArrayAddress.'
     </p></div>
@@ -168,7 +109,7 @@ for($i=0;$i<sizeof($subject);$i++){
 }
 echo'
                 </tbody>
-            </table><a class="small pull-left" href="http://localhost/ODCS">Back</a>
+            </table><a class="small pull-left" href="'.$webhost.'">Back</a>
            ';
 
 

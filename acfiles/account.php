@@ -4,7 +4,7 @@ if($user != "") {
     $puser = new profile();
     $row = $puser->currentuserdata();
     $name = $row['fname'];
-    $newURL  = "http://localhost/ODCS/";
+    $newURL  = $webhost;
     $usern = $row["username"];
     $atype = $row["actp"];
     if($atype == 'Patient') {
@@ -14,7 +14,7 @@ if($user != "") {
         $weight = $_POST['w'];
         $dob = $_POST['d'];
         $puser->deletepatient();
-        $puser->insertprofilepatient($address,$gender,$height,$weight,$dob);
+        $puser->insertprofilepatient(nl2br($address),$gender,$height,$weight,$dob);
         header('Location: '.$newURL);
     }else if($atype == 'Doctor') {
         $address = $_POST['adr'];
@@ -27,9 +27,10 @@ if($user != "") {
         $speciality = explode(",",$special);
         $max = sizeof($speciality);
         $puser->deletedoctor();
+        print_r($webhost);
         for($i = 0; $i < $max;$i++)
         {
-          $puser->insertprofiledoctor($address,$gender,$experience,$contact,$hospital,$qualification,$speciality[$i]);
+          $puser->insertprofiledoctor(nl2br($address),$gender,$experience,$contact,$hospital,$qualification,$speciality[$i]);
         }
         header('Location: '.$newURL);
     }

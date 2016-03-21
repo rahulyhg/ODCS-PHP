@@ -13,6 +13,7 @@ if($user != "") {
     }else{
         $flag =1;
     }
+
 }
 ?>
 <!DOCTYPE html>
@@ -96,7 +97,7 @@ if($user != "") {
             if($flag ==  0){
                 echo '            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right main-nav">
-                    <li><a href="#intro">Intro</a></li>
+
                     <li><a href="#services">Services</a></li>
                     <li><a href="#team">Top Doctors</a></li>
                     <li><a href="#pricing">Pricing</a></li>
@@ -108,10 +109,11 @@ if($user != "") {
                 if($atype == "Patient"){
                 echo '            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right main-nav">
-                    <li><a href="#intro">Intro</a></li>
+
                     <li><a href="/ODCS/acfiles/consult.php">Consult</a></li>
                     <li><a href="/ODCS/profile.php">Edit Profile</a></li>
-                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#header-text" onclick="document.getElementById(\'id01\').style.display=\'block\'">Open Wallet</a>
+</li>
 
                     <li><a href="#" data-toggle="modal" data-target="#modal23" class="btn btn-blue">PayUp Your Balance '.$money.' </a></li>
                     <li><a href="acfiles/signout.php"  class="btn btn-red">Sign Out</a></li>
@@ -119,9 +121,11 @@ if($user != "") {
             </div>';}else{
                     echo '            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right main-nav">
-                    <li><a href="#intro">Intro</a></li>
+
                     <li><a href="/ODCS/acfiles/consult.php">Consult</a></li>
                     <li><a href="/ODCS/profile.php">Edit Profile</a></li>
+<li><a href="#header-text" onclick="document.getElementById(\'id01\').style.display=\'block\'">Open Wallet</a>
+</li>
 
                     <li><a href="#" data-toggle="modal" data-target="#modal23" class="btn btn-blue">PayOuts You Got '.$money.' </a></li>
                     <li><a href="acfiles/signout.php"  class="btn btn-red">Sign Out</a></li>
@@ -307,17 +311,45 @@ if($user != "") {
             </div>
         </div>
     </div>
-    <div id="id01" class="w3-modal">
+    <div id="id01" class="w3-modal w3-card-8">
         <div class="w3-modal-content">
+            <div class="w3-container">
+                <span onclick="document.getElementById('id01').style.display='none'" class="w3-closebtn">×</span>
+                <table class="w3-table w3-striped w3-bordered w3-card-4">
+                    <thead>
+                    <tr class="w3-blue">
+                        <th>Transaction ID</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>By</th>
+                    </tr>
+                    </thead>
 
-      <span onclick="document.getElementById('id01').style.display='none'"
-            class="w3-closebtn">&times;</span>
+                    <?php
+                    if($flag !=0 ) {
+                        $tid = $cuser->sendtransation($uid)['tid'];
+                        $typ = $cuser->sendtransation($uid)['type'];
+                        $amnt = $cuser->sendtransation($uid)['amount'];
+                        $name = $cuser->sendtransation($uid)['name'];
+                        for ($i = 0; $i < sizeof($tid); $i++) {
+                            echo '<tr>
+                        <td>' . $tid[$i] . '</td>
+                        <td>' . $typ[$i] . '</td>
+                        <td>' . $amnt[$i] . '</td>
+                        <td>' . $name[$i] . '</td>
 
+                    </tr>';
+                        }
+                    }
+                    ?>
 
+                </table>
+            <br>
 
-
+            </div>
 
         </div>
+
     </div>
     <!-- Holder for mobile navigation -->
     <div class="mobile-nav">

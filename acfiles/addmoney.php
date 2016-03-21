@@ -10,7 +10,7 @@ if($user != "") {
     }else{
         $trans->removemoneywallet($uid,$uid,$_POST['money']);
     }
-    $newURL  = "http://localhost/ODCS/";
+    $newURL  = $webhost;
     header('Location: '.$newURL);
 }
 ?>

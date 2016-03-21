@@ -1,19 +1,12 @@
 <?php
-require("dbsettings.php");
-$user = $_COOKIE["id"];
+require("config.php");
+$print = new conversation();
 $prid = $_GET['pid'];
-$qry = "SELECT * FROM `odcs`.`prescription` WHERE prid='$prid'";
-mysqli_select_db($dbhandle, $mysqlidb);
-$result = mysqli_query($dbhandle, $qry) or die("<h2>pr Somethings Up </h2> <br> <div align=\"center\" style =\"margin:0 auto\" class=\"neutral\"><span></span></div> <br> <br>" . mysqli_error($dbhandle));
-$row = mysqli_fetch_assoc($result);
-//print_r($row);
+$row = $print->getpre($prid);
 $pr = $row['pre'];
 $did =$row['did'];
 $pid =$row['pid'];
-$chkacqry = "SELECT * FROM `odcs`.`allusers` WHERE uid='$pid'";
-$result2 = mysqli_query($dbhandle, $chkacqry) or die('Error on name');
-$row2 = mysqli_fetch_assoc($result2);
-$name = $row2['fname'];
+$name = $print->getdataid($pid)['fname'];
 ?>
 <head>
     <title>Patient Prescription Page</title>

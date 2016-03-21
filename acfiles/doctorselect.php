@@ -6,7 +6,7 @@ if($user != "") {
     $spe = $_POST['spl'];
     $cid = $uid = md5(uniqid($spe, true));
     $sub = $_POST['sub'];
-    $message = $_POST['msg'];
+    $message = nl2br($_POST['msg']);
     $conslt->addconsult($spe,$message,$cid,$sub);
     $storeArrayUid = $conslt->displaydoctors($spe)[9];
     $storeArrayAddress = $conslt->displaydoctors($spe)[0];
@@ -44,9 +44,9 @@ if($user != "") {
         for($i=0;$i<sizeof($storeArrayUid);$i++){
           echo '<div class="col-md-4">
                 <div>
-                    <img src="http://localhost/ODCS/acfiles/img/doctor.png" alt="Texto Alternativo" class="img-circle img-thumbnail">
+                    <img src="'.$webhost.'acfiles/img/doctor.png" alt="Texto Alternativo" class="img-circle img-thumbnail">
                     <h2>'.$storeArrayName[$i].'</h2>
-                    <strong><a class="btn btn-warning" href="http://localhost/ODCS/acfiles/review.php?did='.$storeArrayUid[$i].'" target="_blank">Reviews</a></strong>
+                    <strong><a class="btn btn-warning" href="'.$webhost.'acfiles/review.php?did='.$storeArrayUid[$i].'" target="_blank">Reviews</a></strong>
                     <br>
                     <strong>Rating: </strong>'.$avgrating[$i].'<br>
                     <strong>Gender: </strong>'.$storeArrayGender[$i].'<br>

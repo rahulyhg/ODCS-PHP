@@ -1,5 +1,6 @@
 <?php
 //enter your mysql details here
+$webhost = "http://localhost/ODCS/";
 $mysqlihost = 'localhost'; //Mysql server address
 $mysqliuser = 'root'; //Mysql username
 $mysqlipass = '009'; //Mysql password
