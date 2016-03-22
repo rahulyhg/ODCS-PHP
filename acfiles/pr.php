@@ -7,8 +7,10 @@ $msg = $record->patientconsultdataid($pid)[0];
 $sub = $record->patientconsultdataid($pid)[1];
 $status = $record->patientconsultdataid($pid)[5];
 $cid = $record->patientconsultdataid($pid)[3];
+$size = sizeof($cid);
 $did = $record->patientconsultdataid($pid)[2];
 $dname = $record->patientconsultdataid($pid)[4];
+$chat = $record;
 ?>
 <head>
     <title>Patient Record Page</title>
@@ -209,7 +211,8 @@ $dname = $record->patientconsultdataid($pid)[4];
     </div>
     <ul class="timeline">
     <?php
-     for($i=0;$i<sizeof($msg);$i++){
+     for($i=0;$i<$size;$i++){
+         
          if($i%2 == 0) {
              echo '<li>
             <div class="timeline-badge danger"><i class=""></i></div>
@@ -245,11 +248,11 @@ $dname = $record->patientconsultdataid($pid)[4];
         </li>';
              //file query
 
-             $pmsg1 = $chat->getpredata($cid)[0];
-             $pno1 = $chat->getpredata($cid)[1];
-             $time1 = $chat->getpredata($cid)[3];
-             $did1 = $chat->getpredata($cid)[4];
-             $dname1 = $chat->getpredata($cid)[5];
+             $pmsg1 = $chat->getpredata($cid[$i])[0];
+             $pno1 = $chat->getpredata($cid[$i])[1];
+             $time1 = $chat->getpredata($cid[$i])[3];
+             $did1 = $chat->getpredata($cid[$i])[4];
+             $dname1 = $chat->getpredata($cid[$i])[5];
              for ($j = 0; $j < sizeof($pmsg1); $j++) {
                  echo '<li>
 
@@ -299,11 +302,11 @@ $dname = $record->patientconsultdataid($pid)[4];
         </li>';
              //file query
 
-             $pmsg1 = $chat->getpredata($cid)[0];
-             $pno1 = $chat->getpredata($cid)[1];
-             $time1 = $chat->getpredata($cid)[3];
-             $did1 = $chat->getpredata($cid)[4];
-             $dname1 = $chat->getpredata($cid)[5];
+             $pmsg1 = $chat->getpredata($cid[$i])[0];
+             $pno1 = $chat->getpredata($cid[$i])[1];
+             $time1 = $chat->getpredata($cid[$i])[3];
+             $did1 = $chat->getpredata($cid[$i])[4];
+             $dname1 = $chat->getpredata($cid[$i])[5];
 
              for ($j = 0; $j < sizeof($pmsg1); $j++) {
                  echo '<li class="timeline-inverted">
@@ -322,6 +325,7 @@ $dname = $record->patientconsultdataid($pid)[4];
          }
 
      }
+
     ?>
 
     </ul>
