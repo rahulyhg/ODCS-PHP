@@ -152,6 +152,16 @@ class allusers{
         }
         return $names;
     }
+    public function getusername($array){
+        $names =array();
+        $name =array();
+        for($i=0;$i<sizeof($array);$i++){
+            $name[$i] = $this->getdataid($array[$i]);
+            $names[$i]= $name[$i]['username'];
+        }
+        return $names;
+    }
+
 
     public function edituser($field,$data,$uid){
         $qry = "UPDATE `allusers` SET `".$field."`='".$data."' WHERE uid='$uid'";
@@ -313,6 +323,42 @@ class consult extends profile{
         $qry = "UPDATE `odcs`.`conversations` SET `status` = 'Closed' WHERE `conversations`.`cid` = '$cid'";
         return runqry($qry, 'Error Closing Consult Data', true);
     }
+    public function adminpatientconsultdata() {
+         global $webhost;
+        $qry = "SELECT * FROM `patient`";
+        $arr['address'] = returncolumn($qry, 'address', 'Error Getting Address');
+        $arr['gender'] = returncolumn($qry, 'gender', 'Error Getting Doctor');
+        $arr['height'] = returncolumn($qry, 'height', 'Error Getting Doctor');
+        $arr['weight'] = returncolumn($qry, 'weight', 'Error Getting Doctor');
+        $arr['dob'] = returncolumn($qry, 'dob', 'Error Getting Doctor');
+        $arr['pid'] = returncolumn($qry, 'uid', 'Error Getting Patient Name');
+        $arr['username']=$this->getusername($arr['pid']);
+        $arr['pname']=$this->getname($arr['pid']);
+        $arr['email']=$this->getemail($arr['pid']);
+        return $arr;
+
+
+    }
+
+    public function admindoctorconsultdata() {
+         global $webhost;
+        $qry = "SELECT * FROM `doctor`";
+        $arr['address'] = returncolumn($qry, 'address', 'Error Getting Address');
+        $arr['gender'] = returncolumn($qry, 'gender', 'Error Getting Doctor');
+        $arr['experiance'] = returncolumn($qry, 'experiance', 'Error Getting Doctor');
+        $arr['contact'] = returncolumn($qry, 'contact', 'Error Getting Doctor');
+        $arr['hospital'] = returncolumn($qry, 'hospital', 'Error Getting Doctor');
+        $arr['qualification'] = returncolumn($qry, 'Qualification', 'Error Getting Doctor');
+        $arr['speciality'] = returncolumn($qry, 'speciality', 'Error Getting Doctor');
+        $arr['uid'] = returncolumn($qry, 'uid', 'Error Getting Patient Name');
+        $arr['username']=$this->getusername($arr['uid']);
+        $arr['pname']=$this->getname($arr['uid']);
+        $arr['email']=$this->getemail($arr['uid']);
+        return $arr;
+
+
+    }
+
 
 
 }

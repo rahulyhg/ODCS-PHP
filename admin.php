@@ -70,13 +70,95 @@ $adminmmoney = $admin->balance('admin');
                     </select>
                 </div>
                 <div id="Doctor" class="tabl" hidden>
-                Table for doctor
+
+                   <a href="acfiles/admin/allusers.php" target="_blank">Edit Alluser!</a>
+                	<a href="acfiles/admin/doctor.php" target="_blank">Edit Doctor details!</a>
+
+                	<table class="w3-table w3-striped w3-bordered w3-card-4">
+                        <thead>
+                        <tr class="w3-blue">
+                        	<th>Name</th>
+                        	<th>Username</th>
+                            <th>Address</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                            <th>Experience</th>
+                            <th>Contact</th>
+                            <th>Hospital</th>
+                            <th>Qualification</th>
+                            <th>Speciality</th>
+                            
+                            
+                        </tr>
+                        </thead>
+                        <?php
+
+                        for ($i = 0; $i < sizeof($admin->admindoctorconsultdata()['pname']); $i++){
+                            echo '<tr>
+                        <td>' . $admin->admindoctorconsultdata()['pname'][$i] . '</td>   
+                        <td>' . $admin->admindoctorconsultdata()['username'][$i] . '</td> 
+                        <td>'.$admin->admindoctorconsultdata()['address'][$i].'</td>
+                        <td>'.$admin->admindoctorconsultdata()['email'][$i].'</td>
+                        <td>' . $admin->admindoctorconsultdata()['gender'][$i] . '</td>
+                        <td>' . $admin->admindoctorconsultdata()['experiance'][$i] . '</td>
+                        <td>' . $admin->admindoctorconsultdata()['contact'][$i] . '</td>
+                        <td>' . $admin->admindoctorconsultdata()['hospital'][$i] . '</td>
+                        <td>' . $admin->admindoctorconsultdata()['qualification'][$i] . '</td>
+                        <td>' . $admin->admindoctorconsultdata()['speciality'][$i] . '</td>
+                        
+
+                    </tr>';
+                        }
+                        ?>
+                    </table>
+
+
+                
                 </div>
                 <div id="Patient" class="tabl" hidden>
-                   Table for patient
+                   <a href="acfiles/admin/allusers.php" target="_blank">Edit Alluser!</a>
+                	<a href="acfiles/admin/patient.php" target="_blank">Edit Patient details!</a>
+                       <table class="w3-table w3-striped w3-bordered w3-card-4">
+                        <thead>
+                        <tr class="w3-blue">
+                        	<th>Name</th>
+                        	<th>Username</th>
+                            <th>Address</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                            <th>Height</th>
+                            <th>Weight</th>
+                            <th>DOB</th>
+                            
+                            
+                            
+                        </tr>
+                        </thead>
+                        <?php
+
+                        for ($i = 0; $i < sizeof($admin->adminpatientconsultdata()['pname']); $i++){
+                            echo '<tr>
+                        <td>' . $admin->adminpatientconsultdata()['pname'][$i] . '</td>   
+                        <td>' . $admin->adminpatientconsultdata()['username'][$i] . '</td> 
+                        <td>'.$admin->adminpatientconsultdata()['address'][$i].'</td>
+                        <td>'.$admin->adminpatientconsultdata()['email'][$i].'</td>
+                        <td>' . $admin->adminpatientconsultdata['gender'][$i] . '</td>
+                        <td>' . $admin->adminpatientconsultdata()['height'][$i] . '</td>
+                        <td>' . $admin->adminpatientconsultdata()['weight'][$i] . '</td>
+                        <td>' . $admin->adminpatientconsultdata()['dob'][$i] . '</td>
+                        
+                        
+
+                    </tr>';
+                        }
+                        ?>
+                    </table>
+
+
                 </div>
                 <div id="Consult" class="tabl" hidden>
-                    <table class="w3-table w3-striped w3-bordered w3-card-4">
+                   <a href="acfiles/admin/conversations.php" target="_blank">Edit Consult!</a>
+                        <table class="w3-table w3-striped w3-bordered w3-card-4">
                         <thead>
                         <tr class="w3-blue">
                             <th>User</th>
@@ -103,6 +185,7 @@ $adminmmoney = $admin->balance('admin');
                     </table>
                 </div>
                 <div id="Transactions" class="tabl" hidden>
+                   <a href="acfiles/admin/tran.php" target="_blank">Edit Transactions!</a>
                     <table class="w3-table w3-striped w3-bordered w3-card-4">
                         <thead>
                         <tr class="w3-blue">
