@@ -212,7 +212,7 @@ $chat = $record;
     <ul class="timeline">
     <?php
      for($i=0;$i<$size;$i++){
-         
+
          if($i%2 == 0) {
              echo '<li>
             <div class="timeline-badge danger"><i class=""></i></div>

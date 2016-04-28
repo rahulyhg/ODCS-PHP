@@ -41,29 +41,43 @@ if($user != "") {
     <script src="js/bootstrap.min.js"></script>
 </head>
 <div class="container">
+  
     <div class="page-header">
         <h1 class="text-center"><?php echo $storeArrayName; ?></h1>
     </div>
-
-    <img src="<?php echo $webhost; ?>acfiles/img/patient.png" alt="" class="center-block img-circle img-thumbnail img-responsive">
-
-    <p class="lead text-center"><?php echo 'Details : '; ?>.</p>
+     <div class="row">
+      <div class="panel panel-warning">
+        <div class="panel-heading">Doctor Profile</div>
+        <div class="panel-body">
+       <div class="col-lg-4"><img src="<?php echo $webhost; ?>acfiles/img/patient.png" alt="" class="center-block img-circle img-thumbnail img-responsive">
+       
+    
+    
     <?php
 
     echo'
 <div class="text-center">
-    <strong>Rating: </strong>'.$rating.'<br>
-    <strong>Gender: </strong>'.$storeArrayGender.'<br>
+    
+    <strong><h1>'.$rating.'</h1></strong><small>Rating</small></div></div>
+   <div class="col-lg-8">
+    <div class="col-lg-6"><strong>Gender: </strong>'.$storeArrayGender.'<br>
     <strong>Qualification: </strong>'.$storeArrayQ.'<br>
     <strong>Experience: </strong>'.$storeArrayEx.'<br>
-    <strong>Contact: </strong>'.$storeArrayCo.'<br>
-    <strong>Email: </strong>'.$storeArrayEmail.'<br>
     <br><strong>Speciality: </strong><br>
     <p>'.$speciality.'
-    </p>
+    </p></div>
+    
+    <div class="col-lg-6"><strong>Contact: </strong>'.$storeArrayCo.'<br>
+    <strong>Email: </strong>'.$storeArrayEmail.'<br></div>
+    <div class="row">
+    <div class="col-lg-6">
+    
     <br><strong>Address: </strong><br>
     <p>'.$storeArrayAddress.'
-    </p></div>
+    </p></div></div></div></div>
+    </p></div></div></div>
+   </div>
+   </div>
     <div class="container" style="margin-top: 60px">
     <div class="panel panel-primary">
         <div class="panel-heading">Reviews</div>
